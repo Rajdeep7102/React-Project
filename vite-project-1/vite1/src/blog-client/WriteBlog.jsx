@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 
 
+//function to summarize the content
+
+
 const WriteBlog = () => {
   const [heading, setHeading] = useState('');
   const [text, setText] = useState('');
@@ -28,6 +31,7 @@ const WriteBlog = () => {
     try {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
+      const Summary = new GenerateSummary(text);
       const response = await fetch('http://localhost:8000/blogs', {
         method: 'POST',
         headers: {
@@ -46,6 +50,19 @@ const WriteBlog = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+    const [summarizedText,setSummarizedText] = useState('');
+    const handleSummarize = async () => {
+        try {
+          const response = await axios.post('http://localhost:5000/summarize',{
+            text: text,
+          });
+          setSummarizedText(response.data.summary);
+        }catch(error){
+          console.error('Error summarizing text:',error);
+        }
+    }
+    handleSummarize();
+
 
     if (redirect) {
       return <Navigate to={'BlogPage'} />;
