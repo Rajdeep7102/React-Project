@@ -1,0 +1,16 @@
+
+.flex.justify-evenly{
+
+    padding-top: 150px;
+    padding-bottom: 150px;
+    background: inherit;
+}
+.tools-content.py-16{
+    
+    font-weight: 200;
+    font-size: 26px;
+} 
+
+.max-w-sm.bg-white.shadow-black.rounded-lg{
+    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);  
+}

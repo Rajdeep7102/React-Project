@@ -1,0 +1,37 @@
+.footer-bg-image{
+    padding-top: 200px;
+    height: 500px;
+    width: 1920px;
+    position: absolute;
+    z-index: -1;
+}
+
+.about-h1{
+    margin-bottom: 20px;
+}
+.footer.flex{
+    width:100%;
+    bottom: 0;
+    background-size: cover;
+    line-height: 20px;
+    background-color:#3A5443 ;
+    font-size: 13px;
+}
+.header{
+    width:100%;
+    margin:auto;
+    align-items:flex-start;
+    justify-content:space-between;
+    display:flex;
+    flex-wrap:wrap;
+    padding-top: 90px;
+    padding-bottom: 30px;
+}
+.card{
+    flex-basis: 20%;
+    padding:10px;
+}
+
+.contact-link-button,.footer-navigate-links{
+    padding-left: 110px;
+}
