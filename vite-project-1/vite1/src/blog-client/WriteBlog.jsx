@@ -14,6 +14,7 @@ const WriteBlog = () => {
   const [text, setText] = useState('');
   const [redirect, setRedirect] = useState(false);
   const [Category,setCategory] = useState('');
+  const [Summary,setSummary] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,27 +23,32 @@ const WriteBlog = () => {
     } else if (name === 'text') {
       setText(value);
     }
-    else if (name == "category"){
+    else if (name == "Category"){
       setCategory(value);
+    }
+    else if(name=="Summary"){
+      setSummary(value);
     }
   };
   const navigate = useNavigate();
+
   const handleSave = async () => {
     try {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
-      const Summary = new GenerateSummary(text);
+      // const Summary = new GenerateSummary(text);
+      
       const response = await fetch('http://localhost:8000/blogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Category }),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary,Category}),
       });
 
       if (response.ok) {
         console.log('Blog data saved successfully');
-        setRedirect(true);
+        navigate('/BlogPage');
         
       } else {
         console.error('Failed to save blog data');
@@ -61,12 +67,10 @@ const WriteBlog = () => {
           console.error('Error summarizing text:',error);
         }
     }
-    handleSummarize();
+    // handleSummarize();
 
 
-    if (redirect) {
-      return <Navigate to={'BlogPage'} />;
-    }
+    
   };
 
   return (
@@ -82,8 +86,10 @@ const WriteBlog = () => {
             Text: 
             <textarea className="textarea " type="text" name="text" value={text} onChange={handleInputChange} />
           </label>
-          <label className="category">Category:</label>
-          <input className='categories' type="text" name="Category" value={Category} onChange={handleInputChange} placeholder='Technology,Science,Art, etc.'/>
+          <label className="Summary">Summary:</label>
+          <input className='Summary' type="text" name="Summary" value={Summary} onChange={handleInputChange} placeholder='Enter Summary of the blog'/>
+          <label className="Category">Category:</label>
+          <input className='Categories' type="text" name="Category" value={Category} onChange={handleInputChange} placeholder='Technology,Science,Art, etc.'/>
           <button onClick={handleSave}>Save Blog</button>
         </div>
       </div>

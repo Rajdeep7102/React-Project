@@ -1,63 +1,51 @@
 import React, { useEffect } from 'react'
 import {Link} from "react-router-dom";
-const DisplayBlogs = ({_id,Author,Time,Heading,Content,Category}) => {
-  console.log('By')
+
+const DisplayBlogs = () => {
 
   return (
-    <div className="post">
-      <div className="image">
-        <Link to={`blogdata/${_id}`}>
-          <img src="" alt="Image" />
-        </Link>
+    
+    <>
+    <div className=' ' >
+    
+        <div className='text-xl  justify-center pb-36 flex space-x-96 pt-11'>
+
+        <div className=''>
+          <Link className='font-bold' to="/blogpage"> Explore</Link>
+         
+        </div>
+
+        <div className='flex gap-9'>
+        <Link className='' to="/">Home</Link>
+          <button className='' >Edit</button>
+          <Link className=""to="/register">MyProfile</Link>
+        </div>
+
+        </div>
+
+      <div className=''>
+        {/* <div>L</div> */}
+        <div>
+     <div className='-mt-24 bg-zinc-500 w-2/3 justify-center items-center ml-72'>
+     <h1 className='bg-red-400 '>Heading</h1>
+       
+      <div className='flex justify-between '>
+      <a href="">Author</a>
+       <p>Date/Time</p>
       </div>
-      <div className="texts">
-        <Link to={`/blogdata/${_id}`}>
-          <h2>{Heading}</h2>
-        </Link>
-        <p className='info'>
-          <a className="author">{Author}</a>
-          <time>{Time}</time>
-        </p>
-        <p className='summary'>{Content}</p>
+
+         <p>Content</p>
+      
+     </div></div>
+        {/* <div>R</div> */}
       </div>
+
     </div>
+    
+    
+    </>
   );    
 }
 
-// const BlogPost = () => {
-//     const [blogPosts,setBlogPosts] = useState([]);
-
-//     useEffect(() =>{
-//       axios.get('http://localhost:5173/blogdata')
-//       .then(blogPosts => {
-//         console.log(blogPosts, "-------------------------");
-//         setBlogPosts(blogPosts.data)})
-//       .catch(err => console.log(err))
-
-      
-//     },[])
-
-//     return (<>
-//       {
-//       blogPosts.map(blogPosts =>{
-        
-//         <div className="post">
-//         <div className="image">
-//             <img src="images/images.jpeg" alt="" />
-//         </div>
-//         <div className="texts">
-//             <h2>{blogPosts.Heading}</h2>
-//             <p className='info'>
-//                 <a className='author' href='#/author'>{blogPosts.Author} </a>
-//                 <time>{blogPosts.Time}</time>
-//                 </p>
-//                 <p className='summary'>{blogPosts.Content}
-//             </p></div>
-//     </div>
-//       })
-//       }
-//       </>
-//     )
-// }
 
 export default DisplayBlogs

@@ -4,6 +4,12 @@ const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
 
+// import {pipeline} from '@xenova/transformers'
+// import {promisify} from 'util';
+// import { T5Tokenizer,T5ForConditionalGeneration } from '@xenova/transformers';
+// const { createSummarizer } = require('./summarizer'); 
+
+
 const app = express();
 const port = 8000;
 const cors = require('cors');
@@ -66,9 +72,9 @@ app.post('/login', async (req, res) => {
 
 // Submit Posts
 app.post('/blogs',async(req,res)=>{
-  const {Author,Time,Heading,Content,Category} = req.body;
+  const {Author,Time,Heading,Content,Summary,Category} = req.body;
 
-  const newBlog = new Blogs({Author,Time,Heading,Content,Category})
+  const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category})
 
   try {
     await newBlog.save();
@@ -93,3 +99,19 @@ app.get('/blogdata',async (req,res) =>{
 app.listen(port, () => {
   console.log(`Server is listening at http://localhost:${port}`);
 });
+
+
+
+
+// const summarizer = createSummarizer();
+
+// app.post('/summarize',async (req,res)=>{
+//   const text = req.body.text;
+//   try{
+//     const summarizedText = await summarizer.summarize(text);
+//     res.json({summary : summarizedText});
+//   }catch (error){
+//     console.error('Error summarizing text:',error);
+//     res.status(500).json({error:'Internal server error'});
+//   }
+// });

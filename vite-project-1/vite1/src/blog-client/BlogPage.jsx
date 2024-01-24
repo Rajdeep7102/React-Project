@@ -64,7 +64,7 @@ const handleWriteBlog = () => {
    <main id="blogpage">
     <header >
         
-        <a href="" className="logo">MyBlog</a>
+        <Link className='logo' to="/displayblogs"> MyBlog</Link>
         <Link to="/">Home</Link>
         <form action="">
             

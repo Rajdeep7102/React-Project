@@ -11,6 +11,7 @@ import BlogPage from './blog-client/BlogPage'
 import UserLogin from './blog-client/UserLogin'
 import Register from './blog-client/Register'
 import WriteBlog from './blog-client/WriteBlog'
+import DisplayBlogs from './blog-client/DisplayBlogs'
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -25,6 +26,7 @@ function App() {
        <Route path='/login' element={<UserLogin/>}></Route>
        <Route path='/register' element={<Register/>}></Route>
        <Route path='/writeblog' element={<WriteBlog/>}></Route>
+       <Route path='/displayblogs' element={<DisplayBlogs/>}></Route>
       </Routes>
     
     <Footer/>
