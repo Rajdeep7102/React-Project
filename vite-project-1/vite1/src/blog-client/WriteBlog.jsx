@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 
+import {pipeline} from '@xenova/transformers'
 
 //function to summarize the content
 
@@ -37,18 +38,20 @@ const WriteBlog = () => {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
       // const Summary = new GenerateSummary(text);
+      const summarizedContent = await pipeline('summarization',text)
       
       const response = await fetch('http://localhost:8000/blogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary,Category}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summarizedContent,Category}),
       });
 
       if (response.ok) {
         console.log('Blog data saved successfully');
         navigate('/BlogPage');
+        
         
       } else {
         console.error('Failed to save blog data');
@@ -67,6 +70,7 @@ const WriteBlog = () => {
           console.error('Error summarizing text:',error);
         }
     }
+    
     // handleSummarize();
 
 

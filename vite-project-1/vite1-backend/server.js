@@ -1,10 +1,16 @@
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
 
-// import {pipeline} from '@xenova/transformers'
+import('@xenova/transformers').then((transformersModule) => {
+  const { pipeline } = transformersModule;
+  // Now you can use pipeline
+});
+
+
 // import {promisify} from 'util';
 // import { T5Tokenizer,T5ForConditionalGeneration } from '@xenova/transformers';
 // const { createSummarizer } = require('./summarizer'); 
@@ -13,6 +19,7 @@ const Blogs = require('./BlogDataModel')
 const app = express();
 const port = 8000;
 const cors = require('cors');
+const { pipeline } = require('stream');
 
 // Connect to MongoDB (replace 'your_mongodb_uri' with your actual MongoDB URI)
 mongoose.connect('mongodb://localhost:27017/registerdata', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -73,7 +80,7 @@ app.post('/login', async (req, res) => {
 // Submit Posts
 app.post('/blogs',async(req,res)=>{
   const {Author,Time,Heading,Content,Summary,Category} = req.body;
-
+  
   const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category})
 
   try {
