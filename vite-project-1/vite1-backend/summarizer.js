@@ -1,8 +1,8 @@
 // summarizer.js
 
-import {pipeline} from '@xenova/transformers';
+const { pipeline } = require('stream');
 const { promisify } = require('util');
-const { T5Tokenizer, T5ForConditionalGeneration } = require('@xenova/transformers');
+const { T5Tokenizer, T5ForConditionalGeneration } = require('t5-text');
 
 // Load pre-trained T5 model and tokenizer
 const tokenizer = new T5Tokenizer.from_pretrained('t5-small');

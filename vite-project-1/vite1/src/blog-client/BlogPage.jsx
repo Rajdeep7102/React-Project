@@ -28,7 +28,21 @@ const BlogPage = () => {
           // Check if the user is already authenticated
           const loggedInUsername = Cookies.get('loggedInUsername');
           console.log(loggedInUsername)
-
+          // blogPosts.forEach(item => {
+            
+          // })
+          // if (loggedInUsername) {
+          //   try {
+          //     const response = await fetch('http://localhost:5173/register', {
+          //       credentials: 'include',
+          //     });
+          //     const userInfo = await response.json();
+          //     console.log(userInfo)
+          //     setUsername(userInfo.Author);
+          //   } catch (error) {
+          //     console.error('Error fetching user profile: ', error);
+          //   }
+          // }
         };
     
         fetchData();
@@ -45,10 +59,6 @@ const handleWriteBlog = () => {
         alert('Please log in first.');
       }
 }
-
-const handleDivClick = (selectedPost) =>{
-  navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
-};
 
   return (
    <main id="blogpage">
@@ -70,7 +80,7 @@ const handleDivClick = (selectedPost) =>{
     {/* <DisplayPosts/> */}
     {
       blogPosts.map(item => (
-        <div className="post" key={item._id} onClick={() => handleDivClick(item)}>
+        <div className="post">
          <div className="image">
              <img src="images/images.jpeg" alt="Nothing image" />
          </div>
