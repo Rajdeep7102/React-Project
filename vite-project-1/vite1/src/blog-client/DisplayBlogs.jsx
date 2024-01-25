@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react'
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 
 const DisplayBlogs = () => {
-
+  const location = useLocation();
+  const selectedPost = location.state.selectedPost;
   return (
     
     <>
@@ -26,15 +27,15 @@ const DisplayBlogs = () => {
       <div className=''>
         {/* <div>L</div> */}
         <div>
-     <div className='-mt-24 bg-zinc-500 w-2/3 justify-center items-center ml-72'>
-     <h1 className='bg-red-400 '>Heading</h1>
+     <div className='-mt-24  w-2/3 justify-center items-center ml-72'>
+     <h1 className=' text-2xl font-bold'>{selectedPost.Heading}</h1>
        
-      <div className='flex justify-between '>
-      <a href="">Author</a>
-       <p>Date/Time</p>
+      <div className='flex justify-between bg-white '>
+      <a href="">{selectedPost.Author}</a>
+       <p>{selectedPost.Time}</p>
       </div>
 
-         <p>Content</p>
+         <p className='bg-white'>{selectedPost.Content}</p>
       
      </div></div>
         {/* <div>R</div> */}
