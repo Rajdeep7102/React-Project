@@ -1,15 +1,49 @@
 // BlogPage.js
-import React, { useState } from 'react';
+import React from 'react';
 import './Writeblog.css'
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
+import {useState,useEffect,useRef} from 'react';
 
-import {pipeline} from '@xenova/transformers'
+// import {pipeline} from '@xenova/transformers'
 
 //function to summarize the content
 
+// const createHandlers = (pipeline) =>{
+//   const handleSave = async (text,heading,Category) => {
+//     try { 
+//       const Author = Cookies.get('loggedInUsername');
+//       const Time = new Date();
+//       const summarizedContent = await pipeline('summarization',text);
 
+//       const response = await fetch('http://localhost:8000/blogs',{
+//         method:'POST',
+//         headers :{
+//           'Content-Type':'application/json',
+//         },
+//         body: JSON.stringify({
+//           Author,
+//           Time,
+//           Heading:heading,
+//           Content: text,
+//           Summary: summarizedContent,
+//           Category,
+//         }),
+//       });
+//       if(response.ok){
+//         console.log('Blog Data saved successfully');
+//       }
+//       else{
+//         console.error('Failed to save blog data');
+//       }
+//     }
+//     catch(error){
+//       console.error('Erro:',error);
+//     }
+//   }
+//   return {handleSave};
+// }
 const WriteBlog = () => {
   const [heading, setHeading] = useState('');
   const [text, setText] = useState('');
@@ -17,6 +51,7 @@ const WriteBlog = () => {
   const [Category,setCategory] = useState('');
   const [Summary,setSummary] = useState('');
 
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'heading') {
@@ -38,14 +73,14 @@ const WriteBlog = () => {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
       // const Summary = new GenerateSummary(text);
-      const summarizedContent = await pipeline('summarization',text)
+      // const summarizedContent = await pipeline('summarization',text)
       
       const response = await fetch('http://localhost:8000/blogs', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summarizedContent,Category}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary,Category}),
       });
 
       if (response.ok) {
@@ -70,11 +105,7 @@ const WriteBlog = () => {
           console.error('Error summarizing text:',error);
         }
     }
-    
     // handleSummarize();
-
-
-    
   };
 
   return (

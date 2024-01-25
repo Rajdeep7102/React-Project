@@ -60,6 +60,10 @@ const handleWriteBlog = () => {
       }
 }
 
+
+const handleDivClick = (selectedPost) =>{
+  navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+};
   return (
    <main id="blogpage">
     <header >
@@ -80,7 +84,7 @@ const handleWriteBlog = () => {
     {/* <DisplayPosts/> */}
     {
       blogPosts.map(item => (
-        <div className="post">
+        <div className="post" key={item._id} onClick={() => handleDivClick(item)}>
          <div className="image">
              <img src="images/images.jpeg" alt="Nothing image" />
          </div>
