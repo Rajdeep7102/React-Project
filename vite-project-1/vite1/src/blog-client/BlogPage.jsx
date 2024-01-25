@@ -94,7 +94,7 @@ const handleDivClick = (selectedPost) =>{
                  <a className='author' href='#/author'>{item.Author} </a>
                  <time>{item.Time}</time>
                  </p>
-                 <p className='summary'>{item.Content}
+                 <p className='summary'>{item.Summary}
              </p></div>
      </div>
       ))

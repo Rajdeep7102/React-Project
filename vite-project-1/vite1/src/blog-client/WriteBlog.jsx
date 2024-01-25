@@ -72,7 +72,7 @@ const WriteBlog = () => {
     try {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
-      // const Summary = new GenerateSummary(text);
+      const summary = Summary.trim() ? Summary : text.slice(0, 150);     // const Summary = new GenerateSummary(text);
       // const summarizedContent = await pipeline('summarization',text)
       
       const response = await fetch('http://localhost:8000/blogs', {
@@ -80,7 +80,7 @@ const WriteBlog = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary,Category}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summary,Category}),
       });
 
       if (response.ok) {
