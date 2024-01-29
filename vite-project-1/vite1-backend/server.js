@@ -4,11 +4,13 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
+const multer = require('multer')
 
-import('@xenova/transformers').then((transformersModule) => {
-  const { pipeline } = transformersModule;
-  // Now you can use pipeline
-});
+const uploadMiddleware = multer({dest : 'uploads/'});
+// import('@xenova/transformers').then((transformersModule) => {
+//   const { pipeline } = transformersModule;
+//   // Now you can use pipeline
+// });
 
 
 // import {promisify} from 'util';
@@ -78,10 +80,12 @@ app.post('/login', async (req, res) => {
 });
 
 // Submit Posts
-app.post('/blogs',async(req,res)=>{
+app.post('/blogs',uploadMiddleware.single('file'),async(req,res)=>{
+
+
   const {Author,Time,Heading,Content,Summary,Category} = req.body;
   
-  const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category})
+  const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category}) // Might want to include file also.
 
   try {
     await newBlog.save();

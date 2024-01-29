@@ -8,6 +8,7 @@ const blogSchema = new mongoose.Schema({
     Content: String,
     Summary: String,
     Category : String,
+    File: String,
   })
 
 const Blogs = mongoose.model('Blogs',blogSchema);

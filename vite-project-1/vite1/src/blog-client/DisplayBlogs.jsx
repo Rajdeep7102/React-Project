@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
 import {Link,useLocation} from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const DisplayBlogs = () => {
   const location = useLocation();
   const selectedPost = location.state.selectedPost;
+  const loggedInUsername = Cookies.get('loggedInUsername');
+
   return (
     
     <>
@@ -18,7 +21,9 @@ const DisplayBlogs = () => {
 
         <div className='flex gap-9'>
         <Link className='' to="/">Home</Link>
-          <button className='' >Edit</button>
+        {loggedInUsername === selectedPost.Author && (
+          <button className=''>Edit</button>
+        )}
           <Link className=""to="/register">MyProfile</Link>
         </div>
 

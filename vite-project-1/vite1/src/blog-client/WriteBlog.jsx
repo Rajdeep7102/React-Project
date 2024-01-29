@@ -5,7 +5,26 @@ import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
 import {useState,useEffect,useRef} from 'react';
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css';
 
+
+const modules = {
+  toolbar: [
+    [{ 'header': [1, 2, false] }],
+    ['bold', 'italic', 'underline','strike', 'blockquote'],
+    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+    ['link', 'image'],
+    ['clean']
+  ],
+};
+
+const formats = [
+  'header',
+  'bold', 'italic', 'underline', 'strike', 'blockquote',
+  'list', 'bullet', 'indent',
+  'link', 'image'
+];
 // import {pipeline} from '@xenova/transformers'
 
 //function to summarize the content
@@ -50,15 +69,18 @@ const WriteBlog = () => {
   const [redirect, setRedirect] = useState(false);
   const [Category,setCategory] = useState('');
   const [Summary,setSummary] = useState('');
+  const [files,setFiles] = useState('');
+
 
   
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === 'heading') {
       setHeading(value);
-    } else if (name === 'text') {
-      setText(value);
-    }
+    } 
+    // else if (name === 'text') {
+    //   setText(value);
+    // }
     else if (name == "Category"){
       setCategory(value);
     }
@@ -80,8 +102,9 @@ const WriteBlog = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summary,Category}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summary,Category,File:files[0]}),
       });
+
 
       if (response.ok) {
         console.log('Blog data saved successfully');
@@ -94,6 +117,10 @@ const WriteBlog = () => {
     } catch (error) {
       console.error('Error:', error);
     }
+
+
+    
+
     const [summarizedText,setSummarizedText] = useState('');
     const handleSummarize = async () => {
         try {
@@ -117,14 +144,32 @@ const WriteBlog = () => {
             Heading:</label>
             <input className="blog-heading" type="text" name="heading" value={heading} onChange={handleInputChange} />
           
-          <label className='label2'> 
+          {/* <label className='label2'> 
             Text: 
             <textarea className="textarea " type="text" name="text" value={text} onChange={handleInputChange} />
-          </label>
+          </label> */}
           <label className="Summary">Summary:</label>
-          <input className='Summary' type="text" name="Summary" value={Summary} onChange={handleInputChange} placeholder='Enter Summary of the blog'/>
+          <input className='Summary' 
+                  type="text" 
+                  name="Summary" 
+                  value={Summary} 
+                  onChange={handleInputChange} 
+                  placeholder='Enter Summary of the blog'/>
+          <input type="file"
+             onChange={ev => setFiles(ev.target.files)} />
+
+          <ReactQuill value={text} name='text'
+          onChange={newValue => setText(newValue)}
+                      modules={modules} 
+                      formats={formats }/>
+
           <label className="Category">Category:</label>
-          <input className='Categories' type="text" name="Category" value={Category} onChange={handleInputChange} placeholder='Technology,Science,Art, etc.'/>
+          <input className='Categories' 
+                 type="text" 
+                 name="Category" 
+                 value={Category} 
+                 onChange={handleInputChange} 
+                 placeholder='Technology,Science,Art, etc.'/>
           <button onClick={handleSave}>Save Blog</button>
         </div>
       </div>
