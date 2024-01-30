@@ -3,10 +3,12 @@ import React from 'react';
 import './Writeblog.css'
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
-import { Navigate } from 'react-router-dom';
 import {useState,useEffect,useRef} from 'react';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.bubble.css';
+
+import sanitizeHtml from 'sanitize-html';
 
 
 const modules = {
@@ -25,44 +27,7 @@ const formats = [
   'list', 'bullet', 'indent',
   'link', 'image'
 ];
-// import {pipeline} from '@xenova/transformers'
 
-//function to summarize the content
-
-// const createHandlers = (pipeline) =>{
-//   const handleSave = async (text,heading,Category) => {
-//     try { 
-//       const Author = Cookies.get('loggedInUsername');
-//       const Time = new Date();
-//       const summarizedContent = await pipeline('summarization',text);
-
-//       const response = await fetch('http://localhost:8000/blogs',{
-//         method:'POST',
-//         headers :{
-//           'Content-Type':'application/json',
-//         },
-//         body: JSON.stringify({
-//           Author,
-//           Time,
-//           Heading:heading,
-//           Content: text,
-//           Summary: summarizedContent,
-//           Category,
-//         }),
-//       });
-//       if(response.ok){
-//         console.log('Blog Data saved successfully');
-//       }
-//       else{
-//         console.error('Failed to save blog data');
-//       }
-//     }
-//     catch(error){
-//       console.error('Erro:',error);
-//     }
-//   }
-//   return {handleSave};
-// }
 const WriteBlog = () => {
   const [heading, setHeading] = useState('');
   const [text, setText] = useState('');
@@ -94,7 +59,9 @@ const WriteBlog = () => {
     try {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
-      const summary = Summary.trim() ? Summary : text.slice(0, 150);     // const Summary = new GenerateSummary(text);
+      const sanitizedContent = sanitizeHtml(text);  
+      const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
+   // const Summary = new GenerateSummary(text);
       // const summarizedContent = await pipeline('summarization',text)
       
       const response = await fetch('http://localhost:8000/blogs', {
@@ -102,11 +69,11 @@ const WriteBlog = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summary,Category,File:files[0]}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category}),
       });
 
 
-      if (response.ok) {
+    if (response.ok) {
         console.log('Blog data saved successfully');
         navigate('/BlogPage');
         
@@ -118,20 +85,17 @@ const WriteBlog = () => {
       console.error('Error:', error);
     }
 
-
-    
-
-    const [summarizedText,setSummarizedText] = useState('');
-    const handleSummarize = async () => {
-        try {
-          const response = await axios.post('http://localhost:5000/summarize',{
-            text: text,
-          });
-          setSummarizedText(response.data.summary);
-        }catch(error){
-          console.error('Error summarizing text:',error);
-        }
-    }
+    // const [summarizedText,setSummarizedText] = useState('');
+    // const handleSummarize = async () => {
+    //     try {
+    //       const response = await axios.post('http://localhost:5000/summarize',{
+    //         text: text,
+    //       });
+    //       setSummarizedText(response.data.summary);
+    //     }catch(error){
+    //       console.error('Error summarizing text:',error);
+    //     }
+    // }
     // handleSummarize();
   };
 
@@ -139,15 +103,17 @@ const WriteBlog = () => {
     <div className="div1">
       <div className='px-32'>
         <h1 className="text-4xl text-bold">Create a New Blog</h1>
-        <div className="">
+        <div  className="">
           <label className="heading">
             Heading:</label>
             <input className="blog-heading" type="text" name="heading" value={heading} onChange={handleInputChange} />
-          
+            
+      
           {/* <label className='label2'> 
             Text: 
             <textarea className="textarea " type="text" name="text" value={text} onChange={handleInputChange} />
           </label> */}
+         
           <label className="Summary">Summary:</label>
           <input className='Summary' 
                   type="text" 
@@ -158,7 +124,7 @@ const WriteBlog = () => {
           <input type="file"
              onChange={ev => setFiles(ev.target.files)} />
 
-          <ReactQuill value={text} name='text'
+          <ReactQuill value={text} name='text' type="text"
           onChange={newValue => setText(newValue)}
                       modules={modules} 
                       formats={formats }/>

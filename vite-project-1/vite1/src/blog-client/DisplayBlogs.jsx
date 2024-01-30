@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import {Link,useLocation} from "react-router-dom";
 import Cookies from 'js-cookie';
+import sanitizeHtml from 'sanitize-html';
 
 const DisplayBlogs = () => {
   const location = useLocation();
   const selectedPost = location.state.selectedPost;
   const loggedInUsername = Cookies.get('loggedInUsername');
+  const sanitizedContent = sanitizeHtml(selectedPost.Content);
 
   return (
     
@@ -39,8 +41,8 @@ const DisplayBlogs = () => {
       <a href="">{selectedPost.Author}</a>
        <p>{selectedPost.Time}</p>
       </div>
-
-         <p>{selectedPost.Content}</p>
+      {/* <p>{selectedPost.Content}</p> */}
+           <p dangerouslySetInnerHTML={{ __html: sanitizedContent }} className=''></p>
       
      </div></div>
         {/* <div>R</div> */}

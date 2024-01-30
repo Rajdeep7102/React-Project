@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
+
 const multer = require('multer')
 
-const uploadMiddleware = multer({dest : 'uploads/'});
+// const uploadMiddleware = multer({dest : 'uploads/'});
+
 // import('@xenova/transformers').then((transformersModule) => {
 //   const { pipeline } = transformersModule;
 //   // Now you can use pipeline
@@ -35,8 +37,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-
+app.use(multer().none())
 
 // Route to handle user registration
 app.post('/register', async (req, res) => {
@@ -79,12 +80,16 @@ app.post('/login', async (req, res) => {
   }
 });
 
+
+
+
 // Submit Posts
-app.post('/blogs',uploadMiddleware.single('file'),async(req,res)=>{
+app.post('/blogs',async(req,res)=>{
 
 
   const {Author,Time,Heading,Content,Summary,Category} = req.body;
-  
+  console.log(req.body)
+  // const filePath = req.file ? req.file.path : null; 
   const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category}) // Might want to include file also.
 
   try {
@@ -96,6 +101,26 @@ app.post('/blogs',uploadMiddleware.single('file'),async(req,res)=>{
     res.status(500).json({message:'Internal server Error'})
   }
 });
+
+
+app.delete('/blogdata/:postId', async (req, res) => {
+  const postId = req.params.postId;
+
+  try {
+    // Find the blog post by its ID and remove it from the database
+    const deletedPost = await Blogs.findByIdAndDelete(postId);
+
+    if (!deletedPost) {
+      return res.status(404).json({ message: 'Blog post not found' });
+    }
+
+    res.status(200).json({ message: 'Blog post deleted successfully', deletedPost });
+  } catch (error) {
+    console.error('Error deleting blog post:', error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 // Root endpoint
 // app.get('/', (req, res) => {

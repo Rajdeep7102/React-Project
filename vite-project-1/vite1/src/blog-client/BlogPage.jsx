@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
 import {useNavigate } from "react-router-dom";
 // import blogs from '../../../vite1-backend/BlogDataModel'
 import DisplayBlogs from './DisplayBlogs'
-import DisplayPosts  from './DisplayPosts';
+import UserProfile from './UserProfile'
 import axios from 'axios';
 
 const BlogPage = () => {
@@ -68,7 +68,7 @@ const handleDivClick = (selectedPost) =>{
    <main id="blogpage">
     <header >
         
-        <Link className='logo' to="/displayblogs"> MyBlog</Link>
+        <Link className='logo' to="/userprofile"> MyBlog</Link>
         <Link to="/">Home</Link>
         <form action="">
             
@@ -81,7 +81,7 @@ const handleDivClick = (selectedPost) =>{
             
         </nav>
     </header>
-    {/* <DisplayPosts/> */}
+    {/* <DisplayPosts/> */} 
     {
       blogPosts.map(item => (
         <div className="post" key={item._id} onClick={() => handleDivClick(item)}>
@@ -96,6 +96,7 @@ const handleDivClick = (selectedPost) =>{
                  </p>
                  <p className='summary'>{item.Summary}
              </p></div>
+
      </div>
       ))
     }
