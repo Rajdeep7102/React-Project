@@ -12,6 +12,7 @@ const DisplayBlogs = () => {
   return (
     
     <>
+   
     <div className=' ' >
         <div className='text-xl  justify-center pb-36 flex space-x-96 pt-11'>
           <div className=''>
@@ -19,25 +20,26 @@ const DisplayBlogs = () => {
           </div>
           <div className='flex gap-9'>
             <Link className='' to="/">Home</Link>
-            {loggedInUsername === selectedPost.Author && (
-              <button className=''>Edit</button>
-            )}
+            {loggedInUsername === selectedPost.Author ? (
+              <Link className='' to="/editblog">Edit</Link>
+            ):null} 
             <Link className=""to="/register">MyProfile</Link>
           </div>
         </div>
         <div className=''>
           <div>
             <div className='-mt-24  w-2/3 justify-center items-center ml-72'>
-              <h1 className=''>{selectedPost.Heading}</h1>
-              <div className='flex justify-between '>
+              <h1 className='text-4xl font-bold font-serif text-start pb-5'>{selectedPost.Heading}</h1>
+              <div className='flex flex-col pb-4 text-start '>
                 <a href="">{selectedPost.Author}</a>
                 <p>{selectedPost.Time}</p>
               </div>
-              <p dangerouslySetInnerHTML={{ __html: sanitizedContent }} className=''></p>
+              <p  className="text-xl text-start" dangerouslySetInnerHTML={{ __html: sanitizedContent }} ></p>
             </div>
           </div>
         </div>
       </div>
+    
     </>
   );    
 }

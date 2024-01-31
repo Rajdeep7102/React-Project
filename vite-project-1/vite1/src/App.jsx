@@ -13,6 +13,7 @@ import Register from './blog-client/Register'
 import WriteBlog from './blog-client/WriteBlog'
 import DisplayBlogs from './blog-client/DisplayBlogs'
 import UserProfile from './blog-client/UserProfile'
+import EditBlog from './blog-client/EditBlog'
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -29,6 +30,7 @@ function App() {
        <Route path='/writeblog' element={<WriteBlog/>}></Route>
        <Route path='/userprofile' element={<UserProfile/>}></Route>
        <Route path='/displayblogs/:id' element={<DisplayBlogs/>}></Route>
+       <Route path='/editblog' element={<EditBlog/>}></Route>
       </Routes>
     
     <Footer/>

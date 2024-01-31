@@ -136,7 +136,7 @@ const WriteBlog = () => {
                  value={Category} 
                  onChange={handleInputChange} 
                  placeholder='Technology,Science,Art, etc.'/>
-          <button onClick={handleSave}>Save Blog</button>
+          <button onClick={handleSave}>Publish</button>
         </div>
       </div>
 
