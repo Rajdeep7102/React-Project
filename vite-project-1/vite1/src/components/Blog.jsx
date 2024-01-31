@@ -1,7 +1,25 @@
 import React from 'react'
 import './Blog.css'
 import {Link} from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 const Blog = () => {
+    const [topBlogs, setTopBlogs] = useState([]);
+
+    useEffect(() => {
+      // Fetch top 4 blogs when the component mounts
+      const fetchTopBlogs = async () => {
+        try {
+          const response = await axios.get('http://localhost:8000/top-blogs');
+          setTopBlogs(response.data);
+        } catch (error) {
+          console.error('Error fetching top blogs:', error);
+        }
+      };
+  
+      fetchTopBlogs();
+    }, []);
+
   return (
     <div className='flex space-x-10'>
         <Link to="/blogpage ">
@@ -18,32 +36,18 @@ const Blog = () => {
         <div className='popular-blog'>
             <div className='popular-blog-heading'>
             <h1 className='popular-blog-h1'>Popular</h1>
-                <div className='popular-blog-links flex'>
-                    <div className='popular-blog-thumbnail'>
-                        <img className='blog-link-image' src="images/generativeai.jpeg" alt="" />
-                    </div>
-                    <div className='popular-blog-content'>
-                        This is some of the popular content
-                    </div>
-                </div>
-                <div className='popular-blog-links flex'>
-                    <div className='popular-blog-thumbnail'>
-                        <img className='blog-link-image' src="images/generativeai.jpeg" alt="" />
-                    </div>
-                    <div className='popular-blog-content'>This is some of the popular content</div>
-                </div>
-                <div className='popular-blog-links flex'>
-                    <div className='popular-blog-thumbnail'>
-                        <img className='blog-link-image' src="images/generativeai.jpeg" alt="" />
-                    </div>
-                    <div className='popular-blog-content'>This is some of the popular content</div>
-                </div>
-                <div className='popular-blog-links flex'>
-                    <div className='popular-blog-thumbnail'>
-                        <img className='blog-link-image' src="images/generativeai.jpeg" alt="" />
-                    </div>
-                    <div className='popular-blog-content'>This is some of the popular content</div>
-                </div>
+
+                {topBlogs.map((blog) => (
+        <div key={blog._id} className='popular-blog-links flex '>
+          <div className='popular-blog-thumbnail'>
+            <img className='blog-link-image' src='images/images.jpeg' alt="" />
+          </div>
+          <div className='popular-blog-content'>
+            <p>{blog.Heading}</p>
+          </div>
+        </div>
+      ))}
+
             </div>
         </div>
     </div>

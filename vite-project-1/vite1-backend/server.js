@@ -102,6 +102,17 @@ app.post('/blogs',async(req,res)=>{
   }
 });
 
+// Route to fetch top 4 blogs
+app.get('/top-blogs', async (req, res) => {
+  try {
+    const topBlogs = await Blogs.find().limit(4).sort({ createdAt: -1 }); // adjust your query accordingly
+    console.log("top blogs",topBlogs);
+    res.json(topBlogs);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 app.delete('/blogdata/:postId', async (req, res) => {
   const postId = req.params.postId;
