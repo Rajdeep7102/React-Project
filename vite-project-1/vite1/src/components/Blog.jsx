@@ -20,6 +20,11 @@ const Blog = () => {
       fetchTopBlogs();
     }, []);
 
+    const handleDivClick = (selectedPost) =>{
+        navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+      };
+
+
   return (
     <div className='flex space-x-10'>
         <Link to="/blogpage ">
@@ -38,7 +43,7 @@ const Blog = () => {
             <h1 className='popular-blog-h1'>Popular</h1>
 
                 {topBlogs.map((blog) => (
-        <div key={blog._id} className='popular-blog-links flex '>
+        <div key={blog._id} className='popular-blog-links flex ' onClick={() => handleDivClick(blog)}>
           <div className='popular-blog-thumbnail'>
             <img className='blog-link-image' src='images/images.jpeg' alt="" />
           </div>

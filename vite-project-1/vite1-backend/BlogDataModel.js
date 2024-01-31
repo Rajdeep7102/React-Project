@@ -9,6 +9,10 @@ const blogSchema = new mongoose.Schema({
     Summary: String,
     Category : String,
     File: String,
+    Views: {
+      type: Number,
+      default: 0, // Set a default value if needed
+    },
   })
 
 const Blogs = mongoose.model('Blogs',blogSchema);

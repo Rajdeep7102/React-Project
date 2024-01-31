@@ -28,21 +28,6 @@ const BlogPage = () => {
           // Check if the user is already authenticated
           const loggedInUsername = Cookies.get('loggedInUsername');
           console.log(loggedInUsername)
-          // blogPosts.forEach(item => {
-            
-          // })
-          // if (loggedInUsername) {
-          //   try {
-          //     const response = await fetch('http://localhost:5173/register', {
-          //       credentials: 'include',
-          //     });
-          //     const userInfo = await response.json();
-          //     console.log(userInfo)
-          //     setUsername(userInfo.Author);
-          //   } catch (error) {
-          //     console.error('Error fetching user profile: ', error);
-          //   }
-          // }
         };
     
         fetchData();
@@ -61,8 +46,25 @@ const handleWriteBlog = () => {
 }
 
 
-const handleDivClick = (selectedPost) =>{
-  navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+const handleDivClick = async (selectedPost) =>{
+  try {
+    console.log(selectedPost._id)
+    const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, {
+    method: 'PUT', // Use PUT method for updating
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  if(response.status === 204){
+    navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+  }
+  else{
+    console.error('Failed to update views:',response.status,response.statusText);
+  }
+} catch(error){
+  console.error('Error updating views:',error);
+}
+ // navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
 };
   return (
    <main id="blogpage">

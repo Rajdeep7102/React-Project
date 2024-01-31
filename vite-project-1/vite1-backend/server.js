@@ -13,8 +13,6 @@ const multer = require('multer')
 //   const { pipeline } = transformersModule;
 //   // Now you can use pipeline
 // });
-
-
 // import {promisify} from 'util';
 // import { T5Tokenizer,T5ForConditionalGeneration } from '@xenova/transformers';
 // const { createSummarizer } = require('./summarizer'); 
@@ -85,10 +83,7 @@ app.post('/login', async (req, res) => {
 
 // Submit Posts
 app.post('/blogs',async(req,res)=>{
-
-
   const {Author,Time,Heading,Content,Summary,Category} = req.body;
-  console.log(req.body)
   // const filePath = req.file ? req.file.path : null; 
   const newBlog = new Blogs({Author,Time,Heading,Content,Summary,Category}) // Might want to include file also.
 
@@ -105,8 +100,7 @@ app.post('/blogs',async(req,res)=>{
 // Route to fetch top 4 blogs
 app.get('/top-blogs', async (req, res) => {
   try {
-    const topBlogs = await Blogs.find().limit(4).sort({ createdAt: -1 }); // adjust your query accordingly
-    console.log("top blogs",topBlogs);
+    const topBlogs = await Blogs.find().limit(4).sort({ Views: -1 }); // adjust your query accordingly
     res.json(topBlogs);
   } catch (error) {
     console.error(error);
@@ -129,6 +123,24 @@ app.delete('/blogdata/:postId', async (req, res) => {
   } catch (error) {
     console.error('Error deleting blog post:', error);
     res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Modify your server.js or backend file
+app.put('/api/increment-views/:postId', async (req, res) => {
+  const postId = req.params.postId;
+  try {
+    // Find the blog post by ID and increment the views
+    const result = await Blogs.findByIdAndUpdate(postId, { $inc: { Views: 1 } });
+
+    if (result) {
+      res.status(204).end(); // Success, no content to send
+    } else {
+      res.status(404).json({ error: 'Blog post not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 

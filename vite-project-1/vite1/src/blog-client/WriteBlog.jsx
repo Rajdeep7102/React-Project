@@ -69,7 +69,7 @@ const WriteBlog = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category,Views:0}),
       });
 
 
