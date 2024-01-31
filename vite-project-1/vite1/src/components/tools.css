@@ -14,3 +14,26 @@
 .max-w-sm.bg-white.shadow-black.rounded-lg{
     box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);  
 }
+
+.read-more{
+    display: inline-flex;
+    align-items: center;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+    border-radius: 8px;
+  outline: none;
+  
+  --tw-bg-opacity: 1;
+    background-color: rgb(29 78 216 / var(--tw-bg-opacity))
+}
+.read-more:hover{
+    --tw-bg-opacity: 1;
+    background-color: rgb(30 64 175 / var(--tw-bg-opacity));
+}
+
