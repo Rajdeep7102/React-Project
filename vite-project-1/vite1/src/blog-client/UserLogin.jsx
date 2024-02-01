@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'; // Make sure to import Navigate from react-router-dom
 import Cookies from 'js-cookie';
+const bcrypt = require('bcryptjs')
 
 const UserLogin = () => {
   const [username, setUsername] = useState('');
@@ -31,8 +32,8 @@ const UserLogin = () => {
   }
 
   return (
-    <form className='login' onSubmit={login}>
-      <h1>Login</h1>
+    <form className='login pb-64 pt-14' onSubmit={login}>
+      <h1 className='pb-1 '>Login</h1>
       <input
         type='text'
         placeholder='username'

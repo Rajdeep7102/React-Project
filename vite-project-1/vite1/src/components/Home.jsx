@@ -6,7 +6,7 @@ const Home = () => {
   return (<>
   <Header/>
     <div className='my-9 '>
-        <h1 className=' mb-96 font-bold text-4xl outline-4 '>Big Bold Heading</h1>
+        <h1 className=' mb-80 font-bold text-4xl outline-4 '>OmniSpectra</h1>
         <Tools/>
         <Blog/>
     </div>

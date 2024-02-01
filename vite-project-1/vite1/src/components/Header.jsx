@@ -6,9 +6,9 @@ const header = () => {
   return (
     <div className=''>
         <nav className=' bg-blend-soft-light  justify-center  p-2 '>
-           <LinkRouter className='mx-4 text-slate-600 font-bold'to="/">Home</LinkRouter>
+           <LinkScroll className='mx-4 text-slate-600 font-bold' spy={true} smooth={true} offset={50} duration={500} to="blog">Blogs</LinkScroll>
            <LinkScroll className='mx-4 text-slate-600 font-bold' spy={true} smooth={true} offset={50} duration={500} to="tools">Tools</LinkScroll>
-           <LinkRouter className='mx-4 text-slate-600 font-bold'  to="/blogpage">Blogs</LinkRouter>
+           <LinkRouter className='mx-4 text-slate-600 font-bold'  to="/blogpage">Explore</LinkRouter>
            <LinkScroll className='mx-4 text-slate-600 font-bold' spy={true} smooth={true} offset={50} duration={500} to="about">About</LinkScroll>
         </nav>
     </div>

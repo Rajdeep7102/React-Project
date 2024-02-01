@@ -3,9 +3,10 @@ import './Blog.css'
 import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom"
 const Blog = () => {
     const [topBlogs, setTopBlogs] = useState([]);
-
+    const navigate = useNavigate();
     useEffect(() => {
       // Fetch top 4 blogs when the component mounts
       const fetchTopBlogs = async () => {
@@ -26,7 +27,7 @@ const Blog = () => {
 
 
   return (
-    <div className='flex space-x-10'>
+    <div className='flex space-x-10 ' id="blog">
         <Link to="/blogpage ">
         <div className="glass">
             <h1 className='blog-h1'>Latest</h1>

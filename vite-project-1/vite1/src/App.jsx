@@ -14,6 +14,7 @@ import WriteBlog from './blog-client/WriteBlog'
 import DisplayBlogs from './blog-client/DisplayBlogs'
 import UserProfile from './blog-client/UserProfile'
 import EditBlog from './blog-client/EditBlog'
+import Summarizetest from './blog-client/Summarizetest'
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -24,6 +25,8 @@ function App() {
       <Routes>
        <Route path='/' element={<Home/>}></Route>
        <Route path='/tools' element={<Tools/>}></Route>
+       <Route path='/blog' element={<Blog/>}></Route>
+
        <Route path='/blogpage' element={<BlogPage/>}></Route>
        <Route path='/login' element={<UserLogin/>}></Route>
        <Route path='/register' element={<Register/>}></Route>
@@ -31,6 +34,7 @@ function App() {
        <Route path='/userprofile' element={<UserProfile/>}></Route>
        <Route path='/displayblogs/:id' element={<DisplayBlogs/>}></Route>
        <Route path='/editblog' element={<EditBlog/>}></Route>
+       <Route path='/summarize' element={<Summarizetest/>}></Route>
       </Routes>
     
     <Footer/>

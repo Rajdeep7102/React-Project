@@ -34,17 +34,12 @@ const EditBlog = () => {
     const [Category,setCategory] = useState('');
     const [Summary,setSummary] = useState('');
     const [files,setFiles] = useState('');
-  
-  
     
     const handleInputChange = (e) => {
       const { name, value } = e.target;
       if (name === 'heading') {
         setHeading(value);
       } 
-      // else if (name === 'text') {
-      //   setText(value);
-      // }
       else if (name == "Category"){
         setCategory(value);
       }
@@ -83,19 +78,7 @@ const EditBlog = () => {
       } catch (error) {
         console.error('Error:', error);
       }
-  
-      // const [summarizedText,setSummarizedText] = useState('');
-      // const handleSummarize = async () => {
-      //     try {
-      //       const response = await axios.post('http://localhost:5000/summarize',{
-      //         text: text,
-      //       });
-      //       setSummarizedText(response.data.summary);
-      //     }catch(error){
-      //       console.error('Error summarizing text:',error);
-      //     }
-      // }
-      // handleSummarize();
+
     };
   
     return (
@@ -106,13 +89,6 @@ const EditBlog = () => {
             <label className="heading">
               Heading:</label>
               <input className="blog-heading" type="text" name="heading" value={heading} onChange={handleInputChange} />
-              
-        
-            {/* <label className='label2'> 
-              Text: 
-              <textarea className="textarea " type="text" name="text" value={text} onChange={handleInputChange} />
-            </label> */}
-           
             <label className="Summary">Summary:</label>
             <input className='Summary' 
                     type="text" 
@@ -138,10 +114,6 @@ const EditBlog = () => {
             <button onClick={handleSave}>Update and Publish</button>
           </div>
         </div>
-  
-        {/* <div className="div3">
-          
-        </div> */}
       </div>
     );
 }

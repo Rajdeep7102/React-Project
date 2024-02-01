@@ -32,7 +32,7 @@ const Register = () => {
  }
  
   return (
-    <form className='register' onSubmit={register}>
+    <form className='register pb-60 pt-10' onSubmit={register}>
       <h1>Register</h1>
       <input
         type="text"

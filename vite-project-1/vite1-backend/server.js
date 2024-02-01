@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
-
+const bcrypt = require('bcryptjs')
 const multer = require('multer')
+const jwt = require('jsonwebtoken')
 
+const JWT_SECRET = "Interstellar"
 // const uploadMiddleware = multer({dest : 'uploads/'});
 
 // import('@xenova/transformers').then((transformersModule) => {
@@ -20,8 +22,7 @@ const multer = require('multer')
 
 const app = express();
 const port = 8000;
-const cors = require('cors');
-const { pipeline } = require('stream');
+ const cors = require('cors');
 
 // Connect to MongoDB (replace 'your_mongodb_uri' with your actual MongoDB URI)
 mongoose.connect('mongodb://localhost:27017/registerdata', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -37,6 +38,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(multer().none())
 
+
 // Route to handle user registration
 app.post('/register', async (req, res) => {
   const { username, password,email } = req.body;
@@ -48,10 +50,16 @@ app.post('/register', async (req, res) => {
     // Username is already taken
     return res.status(400).json({ message: 'Username is already taken' });
   }
-
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(password, salt);
   // Create a new user
-  const newUser = new Users({ username, password,email });
-
+  const newUser = new Users({ username,password: hashedPassword,email });
+  const data = {
+      user :{
+        id : req.body._id,
+      }
+  }
+  const jwtData =  jwt.sign(data,)
   try {
     // Save the new user to the database
     await newUser.save();

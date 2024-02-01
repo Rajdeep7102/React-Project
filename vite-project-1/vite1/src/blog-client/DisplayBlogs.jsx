@@ -23,7 +23,7 @@ const DisplayBlogs = () => {
             {loggedInUsername === selectedPost.Author ? (
               <Link className='' to="/editblog">Edit</Link>
             ):null} 
-            <Link className=""to="/register">MyProfile</Link>
+            <Link className=""to="/summarize">MyProfile</Link>
           </div>
         </div>
         <div className=''>
