@@ -1,7 +1,11 @@
 import React, { useState, useEffect  } from 'react';
 import {pipeline} from '@xenova/transformers';
 
-const Summarizetest = () => {
+
+
+
+
+const FirstModel = () => {
 
   // const [inputText, setInputText] = useState('');
   const [output, setOutput] = useState('');
@@ -38,4 +42,4 @@ const Summarizetest = () => {
   );
       }
 
-export default Summarizetest
+export default FirstModel

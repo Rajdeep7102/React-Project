@@ -14,6 +14,7 @@ import WriteBlog from './blog-client/WriteBlog'
 import DisplayBlogs from './blog-client/DisplayBlogs'
 import UserProfile from './blog-client/UserProfile'
 import EditBlog from './blog-client/EditBlog'
+// import summar from '/AImodel/FirstModel'
 import Summarizetest from './blog-client/Summarizetest'
 function App() {
   // const [count, setCount] = useState(0)

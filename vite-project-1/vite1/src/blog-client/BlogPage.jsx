@@ -9,10 +9,20 @@ import DisplayBlogs from './DisplayBlogs'
 import UserProfile from './UserProfile'
 import axios from 'axios';
 
+
+
 const BlogPage = () => {
+  const extractImgTags = (htmlContent) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const imgTags = doc.querySelectorAll('img');
+    return Array.from(imgTags).map(imgTag => imgTag.outerHTML);
+  };  
+  
     const [username,setUsername] = useState(null);
     const navigate = useNavigate();
     const [blogPosts,setBlogPosts] = useState([]);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +43,7 @@ const BlogPage = () => {
         fetchData();
       }, []);
 
-
+     
 
 const handleWriteBlog = () => {
     const loggedInUsername = Cookies.get('loggedInUsername');
@@ -45,6 +55,10 @@ const handleWriteBlog = () => {
       }
 }
 
+const getFirstImageUrl = (Content) => {
+  const imgUrl = Content.match(/<img src="(.*?)"/);
+  return imgUrl ? imgUrl[1] : null; // Return the URL or null if not found
+}
 
 const handleDivClick = async (selectedPost) =>{
   try {
@@ -64,6 +78,7 @@ const handleDivClick = async (selectedPost) =>{
 } catch(error){
   console.error('Error updating views:',error);
 }
+
  // navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
 };
   return (
@@ -85,23 +100,24 @@ const handleDivClick = async (selectedPost) =>{
     </header>
     {/* <DisplayPosts/> */} 
     {
-      blogPosts.map(item => (
-        <div className="post" key={item._id} onClick={() => handleDivClick(item)}>
-         <div className="image">
-             <img src="images/images.jpeg" alt="Nothing image" />
-         </div>
-         <div className="texts">
-             <h2>{item.Heading}</h2>
-             <p className='info'>
-                 <a className='author' href='#/author'>{item.Author} </a>
-                 <time>{item.Time}</time>
-                 </p>
-                 <p className='summary'>{item.Summary}
-             </p></div>
-
-     </div>
-      ))
-    }
+  blogPosts.map(item => (
+    <div className="post space-x-4" key={item._id} onClick={() => handleDivClick(item)}>
+     
+        {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
+          <div className='  ' key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
+        ))}
+      
+      <div className="texts">
+        <h2>{item.Heading}</h2>
+        <p className='info'>
+          <a className='author' href='#/author'>{item.Author} </a>
+          <time>{item.Time}</time>
+        </p>
+        <p className='summary'>{item.Summary}</p>
+      </div>
+    </div>
+  ))
+}
 
 
    </main>

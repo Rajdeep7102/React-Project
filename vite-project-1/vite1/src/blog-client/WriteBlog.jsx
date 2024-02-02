@@ -13,20 +13,27 @@ import sanitizeHtml from 'sanitize-html';
 
 const modules = {
   toolbar: [
-    [{ 'header': [1, 2, false] }],
-    ['bold', 'italic', 'underline','strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+    [{ header: [1, 2, 3, 4, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
     ['link', 'image'],
-    ['clean']
+    [{ align: [] }],
+    ['blockquote'],
+    ['clean'],
   ],
 };
 
 const formats = [
   'header',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image'
+  'bold', 'italic', 'underline', 'strike',
+  'list', 'bullet',
+  'link', 'image',
+  'align',
+  'blockquote',
+  'font', 'size',
 ];
+
+
 
 const WriteBlog = () => {
   const [heading, setHeading] = useState('');
@@ -56,11 +63,15 @@ const WriteBlog = () => {
   const navigate = useNavigate();
 
   const handleSave = async () => {
+    const extractTextFromHTML = (htmlContent) => {
+      const doc = new DOMParser().parseFromString(htmlContent, 'text/html');
+      return doc.body.textContent || "";
+    };
     try {
       const Author = Cookies.get('loggedInUsername');
       const Time = new Date();
-      const sanitizedContent = sanitizeHtml(text);  
-      const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
+      // const summary = (Summary.trim() ? Summary : text.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
+      const summary = (Summary.trim() ? Summary : extractTextFromHTML(text).slice(0, 150));
    // const Summary = new GenerateSummary(text);
       // const summarizedContent = await pipeline('summarization',text)
       
@@ -69,7 +80,7 @@ const WriteBlog = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category,Views:0}),
+        body: JSON.stringify({Author,Time,Heading: heading,Content:text,Summary:summary,Category,Views:0}),
       });
 
 

@@ -22,7 +22,10 @@ const JWT_SECRET = "Interstellar"
 
 const app = express();
 const port = 8000;
- const cors = require('cors');
+const cors = require('cors');
+
+app.use(bodyParser.json({limit:'10mb'}))
+app.use(bodyParser.urlencoded({extended:true,limit:'10mb'}))
 
 // Connect to MongoDB (replace 'your_mongodb_uri' with your actual MongoDB URI)
 mongoose.connect('mongodb://localhost:27017/registerdata', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -55,11 +58,12 @@ app.post('/register', async (req, res) => {
   // Create a new user
   const newUser = new Users({ username,password: hashedPassword,email });
   const data = {
-      user :{
-        id : req.body._id,
+        newUser:{
+          id : req.body._id,
       }
   }
-  const jwtData =  jwt.sign(data,)
+  const authToken =  jwt.sign(data,JWT_SECRET)
+  res.json({authToken})
   try {
     // Save the new user to the database
     await newUser.save();
@@ -73,16 +77,25 @@ app.post('/register', async (req, res) => {
 // Route to handle user login
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
-
   // Check if the username and password match a user in the database
-  const user = await Users.findOne({ username, password });
-
-  if (user) {
-    // Successful login
-    res.status(200).json({ message: 'Login successful' });
-  } else {
-    // Invalid credentials
+  const user = await Users.findOne({username},{password});
+  console.log(user)
+  if (!user) {
     res.status(401).json({ message: 'Invalid username or password' });
+    
+  } 
+
+  const isPasswordMatch =  bcrypt.compare(password,user.password);
+  if(isPasswordMatch){
+    const data = {
+      newUser:{
+        id: user._id,
+      }
+    };
+    const authToken = jwt.sign(data,JWT_SECRET);
+    res.json({authToken});
+  }else{
+    res.status(401).json({message:'Invalid username or password'})
   }
 });
 

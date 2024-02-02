@@ -21,6 +21,13 @@ const Blog = () => {
       fetchTopBlogs();
     }, []);
 
+    const extractImgTags = (htmlContent) => {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlContent, 'text/html');
+      const imgTags = doc.querySelectorAll('img');
+      return Array.from(imgTags).map(imgTag => imgTag.outerHTML);
+    };
+
     const handleDivClick = (selectedPost) =>{
         navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
       };
@@ -45,9 +52,9 @@ const Blog = () => {
 
                 {topBlogs.map((blog) => (
         <div key={blog._id} className='popular-blog-links flex ' onClick={() => handleDivClick(blog)}>
-          <div className='popular-blog-thumbnail'>
-            <img className='blog-link-image' src='images/images.jpeg' alt="" />
-          </div>
+          {extractImgTags(blog.Content).slice(0, 1).map((imgTag, index) => (
+          <div className=' w-1/6 ' key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
+        ))}
           <div className='popular-blog-content'>
             <p>{blog.Heading}</p>
           </div>

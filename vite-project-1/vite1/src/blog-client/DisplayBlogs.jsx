@@ -34,7 +34,7 @@ const DisplayBlogs = () => {
                 <a href="">{selectedPost.Author}</a>
                 <p>{selectedPost.Time}</p>
               </div>
-              <p  className="text-xl text-start" dangerouslySetInnerHTML={{ __html: sanitizedContent }} ></p>
+              <p  className="text-xl text-start" dangerouslySetInnerHTML={{ __html: selectedPost.Content }} ></p>
             </div>
           </div>
         </div>

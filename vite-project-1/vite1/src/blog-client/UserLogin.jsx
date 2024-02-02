@@ -2,13 +2,13 @@ import React from 'react';
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom'; // Make sure to import Navigate from react-router-dom
 import Cookies from 'js-cookie';
-const bcrypt = require('bcryptjs')
+// const bcrypt = require('bcryptjs')
 
 const UserLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
-
+  
   async function login(ev) {
     ev.preventDefault();
     const response = await fetch('http://localhost:8000/login', {

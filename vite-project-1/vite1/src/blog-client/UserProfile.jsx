@@ -9,6 +9,14 @@ import {useNavigate } from "react-router-dom";
 
 const UserProfile = () => {
 
+
+  const extractImgTags = (htmlContent) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const imgTags = doc.querySelectorAll('img');
+    return Array.from(imgTags).map(imgTag => imgTag.outerHTML);
+  };  
+
     // const location = useLocation();
     // const selectedPost = location.state.selectedPost;
     const loggedInUsername = Cookies.get('loggedInUsername');
@@ -67,10 +75,10 @@ const UserProfile = () => {
     </nav>
     {
       userBlogPosts.map(item => (
-        <div className="flex space-x-4" key={item._id} onClick={() => handleDivClick(item)}>
-         <div className="">
-             <img src="images/images.jpeg" alt="Nothing image" />
-         </div>
+        <div className="flex space-x-4 my-3" key={item._id} onClick={() => handleDivClick(item)}>
+         {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
+          <div className=' w-1/6' key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
+        ))}
          <div className="text-start w-8/12">
              <h2>{item.Heading}</h2>
              <p className='info'>
