@@ -3,7 +3,7 @@ import React from 'react';
 import './Writeblog.css'
 import Cookies from 'js-cookie';
 import { useNavigate } from "react-router-dom";
-import {useState,useEffect,useRef} from 'react';
+import {useState,useEffect,useRef,useLocation,useParams} from 'react';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 // import 'react-quill/dist/quill.bubble.css';
@@ -34,6 +34,18 @@ const EditBlog = () => {
     const [Category,setCategory] = useState('');
     const [Summary,setSummary] = useState('');
     const [files,setFiles] = useState('');
+    // const [postId,setPostId] = useState(null);
+    // const location = useLocation();
+  
+    // const {id} = useParams();
+
+    // useEffect(() =>{
+    //   const selectedPost = location.state && location.state.selectedPost;
+
+    //   if(selectedPost){
+
+    //   }
+    // })
     
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -66,12 +78,10 @@ const EditBlog = () => {
           body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category,Views:0}),
         });
   
-  
       if (response.ok) {
           console.log('Blog data saved successfully');
           navigate('/BlogPage');
-          
-          
+
         } else {
           console.error('Failed to save blog data');
         }

@@ -22,14 +22,13 @@ const BlogPage = () => {
     const [username,setUsername] = useState(null);
     const navigate = useNavigate();
     const [blogPosts,setBlogPosts] = useState([]);
+    const [searchInput, setSearchInput] = useState('');
 
 
     useEffect(() => {
         const fetchData = async () => {
           try {
             const response = await axios.get('http://localhost:8000/blogdata');
-            console.log(response)
-            console.log('Hi')
             setBlogPosts(response.data); // Assuming response.data is an array of blog posts
           } catch (error) {
             console.error('Error fetching data:', error);
@@ -81,6 +80,13 @@ const handleDivClick = async (selectedPost) =>{
 
  // navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
 };
+
+
+const filteredBlogPosts =
+searchInput === ''
+  ? blogPosts // Show all blogs if search input is empty
+  : blogPosts.filter((post) => post.Content.toLowerCase().includes(searchInput.toLowerCase()));
+
   return (
    <main id="blogpage">
     <header >
@@ -89,7 +95,11 @@ const handleDivClick = async (selectedPost) =>{
         <Link to="/">Home</Link>
         <form action="">
             
-            <label>     <input type="text" className="search" placeholder='search '  /></label>
+            <label>     <input type="text"
+              className="search"
+              placeholder="Search"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}/></label>
         </form>
         <nav>
         <button className='mb-10' onClick={handleWriteBlog}>Write</button>
@@ -100,7 +110,7 @@ const handleDivClick = async (selectedPost) =>{
     </header>
     {/* <DisplayPosts/> */} 
     {
-  blogPosts.map(item => (
+  filteredBlogPosts.map(item => (
     <div className="post space-x-4" key={item._id} onClick={() => handleDivClick(item)}>
      
         {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
