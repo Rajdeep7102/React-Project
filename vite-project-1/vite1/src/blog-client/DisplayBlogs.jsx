@@ -1,14 +1,20 @@
 import React, { useEffect } from 'react'
-import {Link,useLocation} from "react-router-dom";
+import {Link,useLocation,useNavigate} from "react-router-dom";
 import Cookies from 'js-cookie';
 import sanitizeHtml from 'sanitize-html';
 
 const DisplayBlogs = () => {
   const location = useLocation();
   const selectedPost = location.state.selectedPost;
+  const navigate = useNavigate();
+  console.log("selectedPost data is : ",selectedPost)
   const loggedInUsername = Cookies.get('loggedInUsername');
   const sanitizedContent = sanitizeHtml(selectedPost.Content);
+  console.log(loggedInUsername)
 
+  const handleEditClick = async (selectedPost) =>{
+    navigate(`/editblog/${selectedPost._id}`,{state:{selectedPost}});
+  }
   return (
     
     <>
@@ -21,7 +27,8 @@ const DisplayBlogs = () => {
           <div className='flex gap-9'>
             <Link className='' to="/">Home</Link>
             {loggedInUsername === selectedPost.Author ? (
-              <Link className='' to="/editblog">Edit</Link>
+              <Link className='' key={selectedPost._id}  to={{ pathname: `/editblog/${selectedPost._id}`, state: { postId : selectedPost._id } }}>Link</Link>
+              // to={{ pathname: `/editblog/${selectedPost._id}`, state: { selectedPost } }}
             ):null} 
             <Link className=""to="/summarize">MyProfile</Link>
           </div>

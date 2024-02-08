@@ -34,8 +34,10 @@ function App() {
        <Route path='/writeblog' element={<WriteBlog/>}></Route>
        <Route path='/userprofile' element={<UserProfile/>}></Route>
        <Route path='/displayblogs/:id' element={<DisplayBlogs/>}></Route>
+       <Route path='/editblog/:id' element={<EditBlog/>}></Route>
        <Route path='/editblog' element={<EditBlog/>}></Route>
        <Route path='/summarize' element={<Summarizetest/>}></Route>
+
       </Routes>
     
     <Footer/>

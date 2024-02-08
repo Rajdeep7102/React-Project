@@ -2,11 +2,12 @@
 import React from 'react';
 import './Writeblog.css'
 import Cookies from 'js-cookie';
-import { useNavigate } from "react-router-dom";
-import {useState,useEffect,useRef,useLocation,useParams} from 'react';
+import { useNavigate,useLocation,useParams } from "react-router-dom";
+import {useState,useEffect,useRef} from 'react';
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 // import 'react-quill/dist/quill.bubble.css';
+import axios from 'axios';
 
 import sanitizeHtml from 'sanitize-html';
 
@@ -30,75 +31,106 @@ const formats = [
 const EditBlog = () => {
     const [heading, setHeading] = useState('');
     const [text, setText] = useState('');
-    const [redirect, setRedirect] = useState(false);
     const [Category,setCategory] = useState('');
     const [Summary,setSummary] = useState('');
-    const [files,setFiles] = useState('');
-    // const [postId,setPostId] = useState(null);
-    // const location = useLocation();
-  
-    // const {id} = useParams();
-
-    // useEffect(() =>{
-    //   const selectedPost = location.state && location.state.selectedPost;
-
-    //   if(selectedPost){
-
-    //   }
-    // })
-    
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      if (name === 'heading') {
-        setHeading(value);
-      } 
-      else if (name == "Category"){
-        setCategory(value);
-      }
-      else if(name=="Summary"){
-        setSummary(value);
-      }
-    };
     const navigate = useNavigate();
+    const params = useParams();
+
+
+  const [postInfo, setPostInfo] = useState({
+    Heading: '',
+    Content: '',
+    Summary: '',
+    Category: '',
+  });
+  const location = useLocation();
+  const { id } = params;
+  // const postId = location.state.postId;
+    
+      // Ensure that selectedPost has a value and log it to verify
+  console.log(id);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPostInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
+    useEffect(() => {
+      
+      // Check if location state has the selectedPost data
+      const fetchPostInfo = async () => {
+        console.log(id)
+        try {
+
+          const response = await axios.get(`http://localhost:8000/editblog/${id}`);
+          console.log(response.data)
+          if (response.status === 200 ) {
+            const post = await response.data;
+            // console.
+          setHeading(post.Heading || ''); // Assuming your response has a property 'heading'
+          setSummary(post.Summary || ''); // Assuming your response has a property 'summary'
+          setText(post.Content || '');    // Assuming your response has a property 'content'
+          setCategory(post.Category || '');
+            setPostInfo(post);
+          } else {
+            console.error('Failed to fetch blog data');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
+  
+      fetchPostInfo();
+    }, [id]);
+  
   
     const handleSave = async () => {
       try {
+        const { Heading, Content, Summary, Category } = postInfo;
         const Author = Cookies.get('loggedInUsername');
         const Time = new Date();
-        const sanitizedContent = sanitizeHtml(text);  
+        const sanitizedContent = sanitizeHtml(Content);
         const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
-     // const Summary = new GenerateSummary(text);
-        // const summarizedContent = await pipeline('summarization',text)
-        
-        const response = await fetch('http://localhost:8000/blogs', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({Author,Time,Heading: heading,Content:sanitizedContent,Summary:summary,Category,Views:0}),
-        });
   
-      if (response.ok) {
-          console.log('Blog data saved successfully');
-          navigate('/BlogPage');
+        const formData = new FormData();
+        formData.append('Author', Author);
+        formData.append('Time', Time);
+        formData.append('Heading', Heading);
+        formData.append('Content', sanitizedContent);
+        formData.append('Summary', summary);
+        formData.append('Category', Category);
 
-        } else {
-          console.error('Failed to save blog data');
-        }
-      } catch (error) {
-        console.error('Error:', error);
+        const response = await fetch(`http://localhost:8000/editblog/${postId}`, {
+        method: 'PUT',
+        body: formData,
+      });
+
+      if (response.ok) {
+        console.log('Blog data updated successfully');
+        navigate('/BlogPage');
+      } else {
+        console.error('Failed to update blog data');
+      }
+    } catch (error) {
+      console.error('Error:', error);
       }
 
     };
-  
+      
     return (
       <div className="div1">
         <div className='px-32'>
-          <h1 className="text-4xl text-bold">Create a New Blog</h1>
+          <h1 className="text-4xl text-bold">Edit Blog</h1>
           <div  className="">
             <label className="heading">
               Heading:</label>
-              <input className="blog-heading" type="text" name="heading" value={heading} onChange={handleInputChange} />
+              <input className="blog-heading" 
+              type="text" 
+              name="heading" 
+              value={heading} 
+              onChange={handleInputChange} />
             <label className="Summary">Summary:</label>
             <input className='Summary' 
                     type="text" 
@@ -106,13 +138,9 @@ const EditBlog = () => {
                     value={Summary} 
                     onChange={handleInputChange} 
                     placeholder='Enter Summary of the blog'/>
-            <input type="file"
-               onChange={ev => setFiles(ev.target.files)} />
   
             <ReactQuill value={text} name='text' type="text"
-            onChange={newValue => setText(newValue)}
-                        modules={modules} 
-                        formats={formats }/>
+            onChange={newValue => setPostInfo((prevInfo) => ({ ...prevInfo, Content: newValue }))}/>
   
             <label className="Category">Category:</label>
             <input className='Categories' 

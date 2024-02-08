@@ -169,7 +169,39 @@ app.put('/api/increment-views/:postId', async (req, res) => {
 // Root endpoint
 // app.get('/', (req, res) => {
 //   res.send('Hello, World!');
-// });
+
+// Handle fetching a specific blog post
+app.get('/editblog/:id', async (req, res) => {
+  try {
+    const postId = req.params.id;
+    const blogPost = await Blogs.findById(postId);
+
+    if (!blogPost) {
+      return res.status(404).json({ error: 'Blog post not found' });
+    }
+    res.setHeader('Content-Type', 'application/json');
+
+    console.log(blogPost);
+    res.json(blogPost);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Handle updating a specific blog post
+app.put('/editblog/:id',(req, res) => {
+  console.log(req.body)
+  const postId = req.params.postId;
+
+  const { Author, Time, Heading, Content, Summary, Category } = req.body;
+  // Update the blog post in the database using postId and the received data
+  // Example: Replace the following line with your database update query
+  updateBlogPost(postId, { Author, Time, Heading, Content, Summary, Category });
+
+  res.status(200).send('Blog post updated successfully');
+});
+
 
 app.get('/blogdata',async (req,res) =>{
   res.json(await Blogs.find());

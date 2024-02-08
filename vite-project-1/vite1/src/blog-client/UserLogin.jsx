@@ -23,14 +23,13 @@ const UserLogin = () => {
       
     }
     else{
-
+      console.log('login failed')
     }
   }
 
   if (redirect) {
     return <Navigate to={'/BlogPage'} />;
   }
-
   return (
     <form className='login pb-64 pt-14' onSubmit={login}>
       <h1 className='pb-1 '>Login</h1>
