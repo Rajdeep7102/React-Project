@@ -29,13 +29,13 @@ const formats = [
   'link', 'image'
 ];
 const EditBlog = () => {
-    const [heading, setHeading] = useState('');
-    const [text, setText] = useState('');
-    const [Category,setCategory] = useState('');
-    const [Summary,setSummary] = useState('');
+    // const [heading, setHeading] = useState('');
+    // const [text, setText] = useState('');
+    // const [Category,setCategory] = useState('');
+    // const [Summary,setSummary] = useState('');
     const navigate = useNavigate();
     const params = useParams();
-
+    const { id } = params;
 
   const [postInfo, setPostInfo] = useState({
     Heading: '',
@@ -44,19 +44,12 @@ const EditBlog = () => {
     Category: '',
   });
   const location = useLocation();
-  const { id } = params;
+
   // const postId = location.state.postId;
     
       // Ensure that selectedPost has a value and log it to verify
   console.log(id);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setPostInfo((prevInfo) => ({
-      ...prevInfo,
-      [name]: value,
-    }));
-  };
     useEffect(() => {
       
       // Check if location state has the selectedPost data
@@ -69,10 +62,10 @@ const EditBlog = () => {
           if (response.status === 200 ) {
             const post = await response.data;
             // console.
-          setHeading(post.Heading || ''); // Assuming your response has a property 'heading'
-          setSummary(post.Summary || ''); // Assuming your response has a property 'summary'
-          setText(post.Content || '');    // Assuming your response has a property 'content'
-          setCategory(post.Category || '');
+          // setHeading(post.Heading || ''); // Assuming your response has a property 'heading'
+          // setSummary(post.Summary || ''); // Assuming your response has a property 'summary'
+          // setText(post.Content || '');    // Assuming your response has a property 'content'
+          // setCategory(post.Category || '');
             setPostInfo(post);
           } else {
             console.error('Failed to fetch blog data');
@@ -84,30 +77,36 @@ const EditBlog = () => {
   
       fetchPostInfo();
     }, [id]);
+
+    
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPostInfo((prevInfo) => ({
+      ...prevInfo,
+      [name]: value,
+    }));
+  };
   
   
     const handleSave = async () => {
       try {
-        const { Heading, Content, Summary, Category } = postInfo;
-        const Author = Cookies.get('loggedInUsername');
-        const Time = new Date();
-        const sanitizedContent = sanitizeHtml(Content);
-        const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
+        // const { Heading, Content, Summary, Category } = postInfo;
+        // const Author = Cookies.get('loggedInUsername');
+        // const Time = new Date();
+        // const sanitizedContent = sanitizeHtml(Content);
+        // const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
   
-        const formData = new FormData();
-        formData.append('Author', Author);
-        formData.append('Time', Time);
-        formData.append('Heading', Heading);
-        formData.append('Content', sanitizedContent);
-        formData.append('Summary', summary);
-        formData.append('Category', Category);
+        // const formData = new FormData();
+        // formData.append('Author', Author);
+        // formData.append('Time', Time);
+        // formData.append('Heading', Heading);
+        // formData.append('Content', sanitizedContent);
+        // formData.append('Summary', summary);
+        // formData.append('Category', Category);
 
-        const response = await fetch(`http://localhost:8000/editblog/${postId}`, {
-        method: 'PUT',
-        body: formData,
-      });
+        const response = await axios.put(`http://localhost:8000/editblog/${id}`, postInfo);
 
-      if (response.ok) {
+      if (response.status === 200) {
         console.log('Blog data updated successfully');
         navigate('/BlogPage');
       } else {
@@ -128,28 +127,28 @@ const EditBlog = () => {
               Heading:</label>
               <input className="blog-heading" 
               type="text" 
-              name="heading" 
-              value={heading} 
+              name="Heading" 
+              value={postInfo.Heading} 
               onChange={handleInputChange} />
             <label className="Summary">Summary:</label>
             <input className='Summary' 
                     type="text" 
                     name="Summary" 
-                    value={Summary} 
+                    value={postInfo.Summary} 
                     onChange={handleInputChange} 
                     placeholder='Enter Summary of the blog'/>
   
-            <ReactQuill value={text} name='text' type="text"
+            <ReactQuill value={postInfo.Content} name='text' type="text"
             onChange={newValue => setPostInfo((prevInfo) => ({ ...prevInfo, Content: newValue }))}/>
   
             <label className="Category">Category:</label>
             <input className='Categories' 
                    type="text" 
                    name="Category" 
-                   value={Category} 
+                   value={postInfo.Category} 
                    onChange={handleInputChange} 
                    placeholder='Technology,Science,Art, etc.'/>
-            <button onClick={handleSave}>Update and Publish</button>
+            <button onClick={handleSave}>Save</button>
           </div>
         </div>
       </div>

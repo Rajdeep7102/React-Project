@@ -190,16 +190,24 @@ app.get('/editblog/:id', async (req, res) => {
 });
 
 // Handle updating a specific blog post
-app.put('/editblog/:id',(req, res) => {
+app.put('/editblog/:id', async(req, res) => {
   console.log(req.body)
-  const postId = req.params.postId;
+  const postId = req.params.id;
+  const updatedPost = req.body;
 
-  const { Author, Time, Heading, Content, Summary, Category } = req.body;
-  // Update the blog post in the database using postId and the received data
-  // Example: Replace the following line with your database update query
-  updateBlogPost(postId, { Author, Time, Heading, Content, Summary, Category });
+  try {
+    // Update the post in the MongoDB database using Mongoose
+    const updatedBlog = await Blogs.findByIdAndUpdate(postId, updatedPost, { new: true });
 
-  res.status(200).send('Blog post updated successfully');
+    if (updatedBlog) {
+      res.status(200).json(updatedBlog);
+    } else {
+      res.status(404).json({ error: 'Post not found' });
+    }
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 
