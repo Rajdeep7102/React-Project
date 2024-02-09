@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState ,useRef} from 'react'
 import {Link,useLocation,useNavigate} from "react-router-dom";
 import Cookies from 'js-cookie';
 import sanitizeHtml from 'sanitize-html';
@@ -7,11 +7,61 @@ const DisplayBlogs = () => {
   const location = useLocation();
   const selectedPost = location.state.selectedPost;
   const navigate = useNavigate();
-  console.log("selectedPost data is : ",selectedPost)
+  // console.log("selectedPost data is : ",selectedPost)
   const loggedInUsername = Cookies.get('loggedInUsername');
   const sanitizedContent = sanitizeHtml(selectedPost.Content);
-  console.log(loggedInUsername)
+  const startTimeRef = useRef(null);
+  // console.log(loggedInUsername)
 
+  // const [startTime, setStartTime] = useState(null);
+
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+    console.log(startTimeRef.current)
+    const handleBeforeUnload = (event) => {
+      
+      if (startTimeRef.current) {
+        console.log("slected",selectedPost._id)
+        const elapsedTime = Date.now() - startTimeRef.current;
+        console.log(elapsedTime)
+        sendElapsedTimeToServer(selectedPost._id, elapsedTime);
+      }
+    };
+
+    
+    // console.log(startTime)
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [selectedPost._id]);
+
+
+   
+
+  // Function to send elapsed time to the server
+
+  const sendElapsedTimeToServer = async (postId, elapsedTime) => {
+    try {
+      const response = await fetch(`http://localhost:8000/api/update-elapsed-time/${postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          elapsedTime,
+        }),
+      });
+      console.log(response)
+
+      if (!response.ok) {
+        console.error('Failed to update elapsed time:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error updating elapsed time:', error);
+    }
+  };
   const handleEditClick = async (selectedPost) =>{
     navigate(`/editblog/${selectedPost._id}`,{state:{selectedPost}});
   }
@@ -27,8 +77,9 @@ const DisplayBlogs = () => {
           <div className='flex gap-9'>
             <Link className='' to="/">Home</Link>
             {loggedInUsername === selectedPost.Author ? (
-              <Link className='' key={selectedPost._id}  to={{ pathname: `/editblog/${selectedPost._id}`, state: { postId : selectedPost._id } }}>Link</Link>
-              // to={{ pathname: `/editblog/${selectedPost._id}`, state: { selectedPost } }}
+              <Link className='' key={selectedPost._id}  
+              to={{ pathname: `/editblog/${selectedPost._id}`, 
+                  state: { postId : selectedPost._id } }}>Link</Link>
             ):null} 
             <Link className=""to="/summarize">MyProfile</Link>
           </div>

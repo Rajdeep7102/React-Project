@@ -103,25 +103,6 @@ app.post('/login', async (req, res) => {
   console.error(error);
   res.status(500).json({error:'Internal Server Error'});
  }
-//  const user = await Users.findOne({username},{password});
-//   console.log(user)
-//   if (!user) {
-//     res.status(401).json({ message: 'Invalid username or password' });
-    
-//   } 
-
-//   const isPasswordMatch =  bcrypt.compare(password,user.password);
-//   if(isPasswordMatch){
-//     const data = {
-//       newUser:{
-//         id: user._id,
-//       }
-//     };
-//     const authToken = jwt.sign(data,JWT_SECRET);
-//     res.json({authToken});
-//   }else{
-//     res.status(401).json({message:'Invalid username or password'})
-//   }
 });
 
 
@@ -229,6 +210,36 @@ app.put('/api/increment-views/:postId', async (req, res) => {
   }
 });
 
+
+app.post('/api/update-elapsed-time/:postId', async (req, res) => {
+  const  time = req.body;
+  console.log("server side elapsed time:",time)
+  try {
+    const { postId } = req.params;
+    const { elapsedTime } = req.body;
+console.log("server side elapsed time:",elapsedTime)
+    const blog = await Blogs.findById(postId);
+
+    if (!blog) {
+      return res.status(404).json({ error: 'Blog post not found' });
+    }
+
+    if (!blog.elapsedTime || blog.elapsedTime === 0) {
+      // If elapsed time is not set or is 0, set it to the current elapsed time
+      blog.elapsedTime = elapsedTime;
+    } else {
+      // If elapsed time is already set, calculate the average
+      blog.elapsedTime = (blog.elapsedTime + elapsedTime) / 2;
+    }
+
+    await blog.save();
+
+    res.status(204).end(); // Success, no content to send
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 // Root endpoint
 // app.get('/', (req, res) => {

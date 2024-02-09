@@ -13,6 +13,10 @@ const blogSchema = new mongoose.Schema({
       type: Number,
       default: 0, // Set a default value if needed
     },
+    elapsedTime: {
+      type: Number,
+      default: 0,
+    },
   })
 
 const Blogs = mongoose.model('Blogs',blogSchema);

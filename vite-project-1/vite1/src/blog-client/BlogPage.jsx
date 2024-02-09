@@ -36,7 +36,7 @@ const BlogPage = () => {
     
           // Check if the user is already authenticated
           const loggedInUsername = Cookies.get('loggedInUsername');
-          console.log(loggedInUsername)
+          // console.log(loggedInUsername)
         };
     
         fetchData();
