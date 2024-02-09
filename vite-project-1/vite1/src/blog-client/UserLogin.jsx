@@ -8,6 +8,7 @@ const UserLogin = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [redirect, setRedirect] = useState(false);
+  const [errorMessage,setErrorMessage] = useState('');
   
   async function login(ev) {
     ev.preventDefault();
@@ -17,13 +18,28 @@ const UserLogin = () => {
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
     });
+    // if(response.status === 401){
+    //   setErrorMessage('Invalid username');
+    //   return;
+    // }
     if (response.ok) {
+      const data = await response.json();
       Cookies.set('loggedInUsername', username,{expires:1});  
       setRedirect(true);
-      
     }
     else{
-      console.log('login failed')
+      const data = await response.json()
+      if(response.status === 401){
+        if(data.message === 'Invalid username'){
+          setErrorMessage('Invalid username')
+        }
+        else if(data.message==='Invalid password'){
+          setErrorMessage('Invalid password')
+        }
+      }
+      else{
+        setErrorMessage(data.message || 'Login Failed');
+      }
     }
   }
 
@@ -46,6 +62,7 @@ const UserLogin = () => {
         onChange={(ev) => setPassword(ev.target.value)}
       />
       <button className='loginButton'>Login</button>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </form>
   );
 };

@@ -79,25 +79,49 @@ app.post('/register', async (req, res) => {
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   // Check if the username and password match a user in the database
-  const user = await Users.findOne({username},{password});
-  console.log(user)
-  if (!user) {
-    res.status(401).json({ message: 'Invalid username or password' });
-    
-  } 
+ try {
+  const user = await Users.findOne({username});
+  if(!user) {
+    return res.status(401).json({message:'Invalid username'});
+  }
 
-  const isPasswordMatch =  bcrypt.compare(password,user.password);
+  const isPasswordMatch =  await bcrypt.compare(password,user.password);
+
   if(isPasswordMatch){
     const data = {
       newUser:{
-        id: user._id,
+        id:user._id,
       }
     };
+
     const authToken = jwt.sign(data,JWT_SECRET);
     res.json({authToken});
   }else{
-    res.status(401).json({message:'Invalid username or password'})
+    res.status(401).json({message:'Invalid password'})
   }
+ } catch(error){
+  console.error(error);
+  res.status(500).json({error:'Internal Server Error'});
+ }
+//  const user = await Users.findOne({username},{password});
+//   console.log(user)
+//   if (!user) {
+//     res.status(401).json({ message: 'Invalid username or password' });
+    
+//   } 
+
+//   const isPasswordMatch =  bcrypt.compare(password,user.password);
+//   if(isPasswordMatch){
+//     const data = {
+//       newUser:{
+//         id: user._id,
+//       }
+//     };
+//     const authToken = jwt.sign(data,JWT_SECRET);
+//     res.json({authToken});
+//   }else{
+//     res.status(401).json({message:'Invalid username or password'})
+//   }
 });
 
 
