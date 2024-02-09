@@ -90,19 +90,6 @@ const EditBlog = () => {
   
     const handleSave = async () => {
       try {
-        // const { Heading, Content, Summary, Category } = postInfo;
-        // const Author = Cookies.get('loggedInUsername');
-        // const Time = new Date();
-        // const sanitizedContent = sanitizeHtml(Content);
-        // const summary = (Summary.trim() ? Summary : sanitizedContent.slice(0, 150)).replace(/<\/?[^>]+(>|$)/g, "");
-  
-        // const formData = new FormData();
-        // formData.append('Author', Author);
-        // formData.append('Time', Time);
-        // formData.append('Heading', Heading);
-        // formData.append('Content', sanitizedContent);
-        // formData.append('Summary', summary);
-        // formData.append('Category', Category);
 
         const response = await axios.put(`http://localhost:8000/editblog/${id}`, postInfo);
 

@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom"
+import Cookies from 'js-cookie';
+
 const Blog = () => {
     const [topBlogs, setTopBlogs] = useState([]);
     const navigate = useNavigate();
@@ -28,10 +30,33 @@ const Blog = () => {
       return Array.from(imgTags).map(imgTag => imgTag.outerHTML);
     };
 
-    const handleDivClick = (selectedPost) =>{
-        navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
-      };
+    // const handleDivClick = (selectedPost) =>{
+    //     navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+    //   };
 
+   const handleDivClick = async (selectedPost) =>{
+        try {
+          const loggedInUsername = Cookies.get('loggedInUsername');
+          console.log(selectedPost._id)
+          const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, {
+            loggedInUsername: loggedInUsername,
+          method: 'PUT', // Use PUT method for updating
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        if(response.status === 204){
+          navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+        }
+        else{
+          console.error('Failed to update views:',response.status,response.statusText);
+        }
+      } catch(error){
+        console.error('Error updating views:',error);
+      }
+       // navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
+      };
+      
 
   return (
     <div className='flex space-x-10 ' id="blog">

@@ -61,8 +61,10 @@ const getFirstImageUrl = (Content) => {
 
 const handleDivClick = async (selectedPost) =>{
   try {
+    const loggedInUsername = Cookies.get('loggedInUsername');
     console.log(selectedPost._id)
     const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, {
+      loggedInUsername: loggedInUsername,
     method: 'PUT', // Use PUT method for updating
     headers: {
       'Content-Type': 'application/json',
@@ -77,7 +79,6 @@ const handleDivClick = async (selectedPost) =>{
 } catch(error){
   console.error('Error updating views:',error);
 }
-
  // navigate(`/displayblogs/${selectedPost._id}`,{state:{selectedPost}});
 };
 
@@ -114,11 +115,11 @@ searchInput === ''
     <div className="post space-x-4" key={item._id} onClick={() => handleDivClick(item)}>
      
         {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
-          <div className='  ' key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
+          <div className=' w-auto h-48 overflow-hidden ' key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
         ))}
       
       <div className="texts">
-        <h2>{item.Heading}</h2>
+        <h2>{item.Heading.slice(0,45)}...</h2>
         <p className='info'>
           <a className='author' href='#/author'>{item.Author} </a>
           <time>{item.Time}</time>

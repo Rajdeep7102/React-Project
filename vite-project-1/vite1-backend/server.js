@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Users = require('./UserDataModel')
 const Blogs = require('./BlogDataModel')
+const UserHistory = require('./UserHistory')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const jwt = require('jsonwebtoken')
@@ -150,15 +151,54 @@ app.delete('/blogdata/:postId', async (req, res) => {
 // Modify your server.js or backend file
 app.put('/api/increment-views/:postId', async (req, res) => {
   const postId = req.params.postId;
+  const loggedInUsername = req.body.loggedInUsername;
   try {
     // Find the blog post by ID and increment the views
     const result = await Blogs.findByIdAndUpdate(postId, { $inc: { Views: 1 } });
-
+    
     if (result) {
       res.status(204).end(); // Success, no content to send
     } else {
       res.status(404).json({ error: 'Blog post not found' });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+  try {
+    // Check if the username exists in userhistory collection
+    let userHistory = await UserHistory.findOne({ userId: loggedInUsername });
+    const blogData = await Blogs.findById(postId, { Heading: 1, Category: 1 });
+    if (!userHistory) {
+      // If username doesn't exist, create a new document
+      userHistory = await UserHistory.create({
+        userId: loggedInUsername,
+        viewedBlogs: [{ blogId:postId,heading:blogData.Heading,categories:[blogData.Category], viewCount: 1 }] // Initialize views to 1 for the first time
+      });
+    } else {
+      // If username exists, check if postId exists
+      // const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId.toString() === postId);
+      const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId && blog.blogId.toString() === postId);
+
+      if (blogIndex === -1) {
+        // If postId doesn't exist, add a new post with views initialized to 1
+        userHistory.viewedBlogs.push({
+          blogId: postId,
+          heading:blogData.Heading,
+          categories:[blogData.Category],
+           viewCount: 1 });
+      } else {
+        // If postId exists, increment its views
+        userHistory.viewedBlogs[blogIndex].viewCount += 1;
+      }
+
+      // Update the userhistory collection with the modified document
+      await UserHistory.findByIdAndUpdate(userHistory._id, userHistory);
+    }
+    // Save the updated user history document
+    // await userHistory.save();
+
+    res.status(204).end(); // Success, no content to send
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -181,7 +221,6 @@ app.get('/editblog/:id', async (req, res) => {
     }
     res.setHeader('Content-Type', 'application/json');
 
-    console.log(blogPost);
     res.json(blogPost);
   } catch (error) {
     console.error('Error:', error);
@@ -191,7 +230,6 @@ app.get('/editblog/:id', async (req, res) => {
 
 // Handle updating a specific blog post
 app.put('/editblog/:id', async(req, res) => {
-  console.log(req.body)
   const postId = req.params.id;
   const updatedPost = req.body;
 
