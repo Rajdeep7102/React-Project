@@ -119,12 +119,12 @@ searchInput === ''
         ))}
       
       <div className="texts">
-        <h2>{item.Heading.slice(0,45)}...</h2>
+        <h2>{item.Heading.slice(0,36)}...</h2>
         <p className='info'>
           <a className='author' href='#/author'>{item.Author} </a>
           <time>{item.Time}</time>
         </p>
-        <p className='summary'>{item.Summary}</p>
+        <p className='summary'>{item.Summary.slice(0,135)}...</p>
       </div>
     </div>
   ))

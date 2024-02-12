@@ -211,35 +211,31 @@ app.put('/api/increment-views/:postId', async (req, res) => {
 });
 
 
-app.post('/api/update-elapsed-time/:postId', async (req, res) => {
-  const  time = req.body;
-  console.log("server side elapsed time:",time)
+app.post('/updateElapsedTime/:blogId', async (req, res) => {
   try {
-    const { postId } = req.params;
-    const { elapsedTime } = req.body;
-console.log("server side elapsed time:",elapsedTime)
-    const blog = await Blogs.findById(postId);
+    const { blogId } = req.params;
+    const { totalTime } = req.body;
+
+    const blog = await Blogs.findById(blogId);
 
     if (!blog) {
-      return res.status(404).json({ error: 'Blog post not found' });
+      return res.status(404).json({ message: 'Blog not found' });
     }
 
-    if (!blog.elapsedTime || blog.elapsedTime === 0) {
-      // If elapsed time is not set or is 0, set it to the current elapsed time
-      blog.elapsedTime = elapsedTime;
-    } else {
-      // If elapsed time is already set, calculate the average
-      blog.elapsedTime = (blog.elapsedTime + elapsedTime) / 2;
-    }
-
+    // Update elapsedTime
+    console.log("(",blog.elapsedTime,"*",blog.Views,"+",totalTime,")/(",blog.Views,"+1)")
+    blog.elapsedTime = (blog.elapsedTime * blog.Views + totalTime)/(blog.Views+1)
+    console.log("=",blog.elapsedTime)
+    // Save the updated blog
     await blog.save();
 
-    res.status(204).end(); // Success, no content to send
+    res.status(200).json({ message: 'Elapsed time updated successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error' });
   }
 });
+
 
 // Root endpoint
 // app.get('/', (req, res) => {
