@@ -67,7 +67,7 @@ const Blog = () => {
                 <div className='latest-blog-image '>
                 <img className='latest-blog-thumbnail' src="images/tools.png" alt="" />
                 </div>
-                <div className="latest-blog-content">This is some text</div>
+                <div className="latest-blog-content">How tools have evolved over time </div>
             </div>
         </div>
         </Link>
