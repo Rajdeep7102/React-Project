@@ -60,7 +60,7 @@ const Blog = () => {
 
   return (
     <div className='flex space-x-10 ' id="blog">
-        <Link to="/blogpage ">
+        <Link to="/ ">
         <div className="glass">
             <h1 className='blog-h1'>Latest</h1>
             <div className='latest-blog flex'>

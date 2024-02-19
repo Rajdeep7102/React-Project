@@ -110,7 +110,7 @@ const BlogPage = () => {
         <Link className="logo" to="/userprofile">
           MyBlog
         </Link>
-        <Link to="/">Home</Link>
+        {/* <Link to="/">Home</Link> */}
         <form action="">
           <label>
             <input

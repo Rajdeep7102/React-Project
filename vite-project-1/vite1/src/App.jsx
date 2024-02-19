@@ -14,6 +14,10 @@ import WriteBlog from './blog-client/WriteBlog'
 import DisplayBlogs from './blog-client/DisplayBlogs'
 import UserProfile from './blog-client/UserProfile'
 import EditBlog from './blog-client/EditBlog'
+import ProtectedRoute from './components/ProtectedRoute'
+import Cookies from 'js-cookie'
+
+let loggedInUser = Cookies.get('loggedInUsername')
 // import summar from '/AImodel/FirstModel'
 import Summarizetest from './blog-client/Summarizetest'
 function App() {
@@ -23,7 +27,61 @@ function App() {
     <>
     <Router>
     
-      <Routes>
+    <Routes>
+  {/* <Route path="/" element={<Home />} /> */}
+  <Route path="/tools" element={<Tools />} />
+  <Route path="/blog" element={<Blog />} />
+  <Route path="/" element={<BlogPage />} />
+  <Route path="*" element={<BlogPage />} />
+
+
+  <Route path="/login" element={<UserLogin />} />
+  <Route path="/register" element={<Register />} />
+
+  // Protected Routes
+  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
+  <Route
+    path="/writeblog"
+    element={
+      <ProtectedRoute loggedIn={loggedInUser}>
+        <WriteBlog />
+      </ProtectedRoute>
+    }
+  />
+  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
+  <Route
+    path="/userprofile"
+    element={
+      <ProtectedRoute loggedIn={loggedInUser}>
+        <UserProfile />
+      </ProtectedRoute>
+    }
+  />
+  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
+  <Route
+    path="/displayblogs/:id"
+    element={
+      <ProtectedRoute loggedIn={loggedInUser}>
+        <DisplayBlogs />
+      </ProtectedRoute>
+    }
+  />
+  <Route
+    path="/editblog/:id"
+    element={
+      <ProtectedRoute loggedIn={loggedInUser}>
+        <EditBlog />
+      </ProtectedRoute>
+    }
+  />
+  {/* <ProtectedRoute loggedIn={loggedInUser} path="/userprofile" element={<UserProfile />} />
+  <ProtectedRoute loggedIn={loggedInUser} path="/displayblogs/:id" element={<DisplayBlogs />} />
+  <ProtectedRoute loggedIn={loggedInUser} path="/editblog/:id" element={<EditBlog />} /> */}
+
+  <Route path="/summarize" element={<Summarizetest />} />
+</Routes>
+
+      {/* <Routes>
        <Route path='/' element={<Home/>}></Route>
        <Route path='/tools' element={<Tools/>}></Route>
        <Route path='/blog' element={<Blog/>}></Route>
@@ -38,7 +96,7 @@ function App() {
        <Route path='/editblog' element={<EditBlog/>}></Route>
        <Route path='/summarize' element={<Summarizetest/>}></Route>
 
-      </Routes>
+      </Routes> */}
     
     <Footer/>
     </Router>

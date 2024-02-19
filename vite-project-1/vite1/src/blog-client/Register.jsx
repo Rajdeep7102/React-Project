@@ -19,7 +19,7 @@ const Register = () => {
       
        if (response.ok) {
           console.log('Registration successful');
-          navigate("/BlogPage");
+          navigate("/");
           
           // Optionally, redirect to another page or perform additional actions upon successful registration
        } else {

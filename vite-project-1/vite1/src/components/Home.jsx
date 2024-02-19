@@ -7,7 +7,7 @@ const Home = () => {
   <Header/>
     <div className='my-9 '>
         <h1 className=' mb-80 font-bold text-4xl outline-4 '>OmniSpectra</h1>
-        <Tools/>
+        {/* <Tools/> */}
         <Blog/>
     </div>
     </>

@@ -3,9 +3,9 @@
     background: linear-gradient(135deg, rgb(255,255,255,0.1),rgb(255,255,255,0));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
+    /* border-radius: 20px; */
     border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);  
+    /* box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);   */
 }
 .latest-blog-thumbnail{
     width: 300px;
@@ -16,7 +16,6 @@
     text-align: left;
     padding-left: 20px;
     color: darkslategray;
-    
 }
 .latest-blog{
     display: flex;
@@ -40,10 +39,12 @@
     background: linear-gradient(135deg, rgb(255,255,255,0.1),rgb(255,255,255,0));
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.18);
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37);
+    /* border-radius: 20px; */
+    padding-left: 20px;
+    border-left: 3px solid rgba(20, 19, 19, 0.695);
+    /* box-shadow: 0 8px 32px 0 rgba(0,0,0,0.37); */
     width:800px;
+
 }
 
 .popular-blog-thumbnail{

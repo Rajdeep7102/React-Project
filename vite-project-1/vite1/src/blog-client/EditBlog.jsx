@@ -95,7 +95,7 @@ const EditBlog = () => {
 
       if (response.status === 200) {
         console.log('Blog data updated successfully');
-        navigate('/BlogPage');
+        navigate('/');
       } else {
         console.error('Failed to update blog data');
       }

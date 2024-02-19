@@ -149,7 +149,6 @@ app.delete('/blogdata/:postId', async (req, res) => {
 // Modify your server.js or backend file
 app.put('/api/increment-views/:postId', async (req, res) => {
   const postId = req.params.postId;
-  console.log("request body server sie",req.body.loggedInUsername)
   const  loggedInUsername  = req.body.loggedInUsername;
   // console.log(loggedInUsername)
   try {

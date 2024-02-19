@@ -36,9 +36,9 @@ const Footer = () => {
         <div className='col text-left bottom-10 py-3 flex flex-col gap-4 '>
           <h1 className='about-h1 justify-start font-bold px-24 '>Navigate</h1>
           <a href="#" className='footer-navigate-links'>Home</a>
-          <a href="#" className='footer-navigate-links'>Tools</a>
+          {/* <a href="#" className='footer-navigate-links'>Tools</a> */}
           <a href="#" className='footer-navigate-links'>Blogs</a>
-          <a href="#" className='footer-navigate-links'>Resume</a>
+          {/* <a href="#" className='footer-navigate-links'>Resume</a> */}
           <a href="#" className='footer-navigate-links'>Review</a>
         </div>
     </footer>

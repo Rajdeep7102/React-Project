@@ -86,7 +86,7 @@ const WriteBlog = () => {
 
     if (response.ok) {
         console.log('Blog data saved successfully');
-        navigate('/BlogPage');
+        navigate('/');
         
         
       } else {
