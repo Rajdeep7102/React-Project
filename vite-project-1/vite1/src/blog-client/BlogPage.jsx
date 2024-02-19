@@ -20,6 +20,9 @@ const BlogPage = () => {
   const [blogPosts, setBlogPosts] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [page, setPage] = useState(1);
+  const [filteredBlogPosts, setFilteredBlogPosts] = useState([]);
+  const [hasMorePosts, setHasMorePosts] = useState(true);
+  
 
   useEffect(() => {
     
@@ -27,7 +30,12 @@ const BlogPage = () => {
       try {
         const response = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
         // console.log(response.data)
+        const filteredPosts = response.data.filter((post) =>
+        post.Content.toLowerCase().includes(searchInput.toLowerCase())
+      );
         setBlogPosts((prevPosts) => [...prevPosts, ...response.data]); // Append new posts to existing ones
+        setFilteredBlogPosts(filteredPosts);
+        setHasMorePosts(response.data.length > 0);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -38,7 +46,14 @@ const BlogPage = () => {
     };
 
     fetchData();
-  }, [page]); // Trigger fetching when the page changes
+  }, [page,searchInput]); // Trigger fetching when the page changes
+
+  const handleSearch = () => {
+    setPage(1);
+  }
+
+
+  
 
   const handleWriteBlog = () => {
     const loggedInUsername = Cookies.get('loggedInUsername');
@@ -84,10 +99,11 @@ const BlogPage = () => {
   };
 
   const handleScroll = () => {
-    // Check if the user has scrolled to the bottom of the page
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-      // Adjust the offset based on your preference
-      setPage((prevPage) => prevPage + 1); // Load more posts
+    if (
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+      hasMorePosts
+    ) {
+      setPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -99,10 +115,10 @@ const BlogPage = () => {
     };
   }, []); // Add and remove the scroll event listener
 
-  const filteredBlogPosts =
-    searchInput === ''
-      ? blogPosts // Show all blogs if search input is empty
-      : blogPosts.filter((post) => post.Content.toLowerCase().includes(searchInput.toLowerCase()));
+  // const filteredBlogPosts =
+  //   searchInput === ''
+  //     ? blogPosts // Show all blogs if search input is empty
+  //     : blogPosts.filter((post) => post.Content.toLowerCase().includes(searchInput.toLowerCase()));
 
   return (
     <main id="blogpage">
@@ -118,8 +134,10 @@ const BlogPage = () => {
               className="search"
               placeholder="Search"
               value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-            />
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+                handleSearch(); // Trigger search on every change
+              }}            />
           </label>
         </form>
         <nav>
