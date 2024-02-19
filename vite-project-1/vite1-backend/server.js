@@ -8,17 +8,8 @@ const UserHistory = require('./UserHistory')
 const bcrypt = require('bcryptjs')
 const multer = require('multer')
 const jwt = require('jsonwebtoken')
-
+const db = require('./keys').mongoURL;
 const JWT_SECRET = "Interstellar"
-// const uploadMiddleware = multer({dest : 'uploads/'});
-
-// import('@xenova/transformers').then((transformersModule) => {
-//   const { pipeline } = transformersModule;
-//   // Now you can use pipeline
-// });
-// import {promisify} from 'util';
-// import { T5Tokenizer,T5ForConditionalGeneration } from '@xenova/transformers';
-// const { createSummarizer } = require('./summarizer'); 
 
 
 const app = express();
@@ -29,8 +20,9 @@ app.use(bodyParser.json({limit:'10mb'}))
 app.use(bodyParser.urlencoded({extended:true,limit:'10mb'}))
 
 // Connect to MongoDB (replace 'your_mongodb_uri' with your actual MongoDB URI)
-mongoose.connect('mongodb://localhost:27017/registerdata', { useNewUrlParser: true, useUnifiedTopology: true });
-
+mongoose.connect('mongodb+srv://rajdeep:rajdeep2017@omnispectra.j3xzuo0.mongodb.net/OmniSpectra?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect('mongodb://localhost:27017/registerdata', { useNewUrlParser: true, useUnifiedTopology: true });
+ 
 // Middleware to parse JSON in the request body
 app.use(bodyParser.json());
 
@@ -137,7 +129,6 @@ app.get('/top-blogs', async (req, res) => {
 
 app.delete('/blogdata/:postId', async (req, res) => {
   const postId = req.params.postId;
-
   try {
     // Find the blog post by its ID and remove it from the database
     const deletedPost = await Blogs.findByIdAndDelete(postId);
@@ -153,53 +144,50 @@ app.delete('/blogdata/:postId', async (req, res) => {
   }
 });
 
+
+
 // Modify your server.js or backend file
 app.put('/api/increment-views/:postId', async (req, res) => {
   const postId = req.params.postId;
-  const loggedInUsername = req.body.loggedInUsername;
+  console.log("request body server sie",req.body.loggedInUsername)
+  const  loggedInUsername  = req.body.loggedInUsername;
+  // console.log(loggedInUsername)
   try {
-    // Find the blog post by ID and increment the views
-    const result = await Blogs.findByIdAndUpdate(postId, { $inc: { Views: 1 } });
-    
-    if (result) {
-      res.status(204).end(); // Success, no content to send
-    } else {
-      res.status(404).json({ error: 'Blog post not found' });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-  try {
-    // Check if the username exists in userhistory collection
-    let userHistory = await UserHistory.findOne({ userId: loggedInUsername });
-    const blogData = await Blogs.findById(postId, { Heading: 1, Category: 1 });
-    if (!userHistory) {
-      // If username doesn't exist, create a new document
-      userHistory = await UserHistory.create({
-        userId: loggedInUsername,
+
+    if(loggedInUsername){
+      const result = await Blogs.findByIdAndUpdate(postId,{$inc:{Views:1}});
+      if(result){
+        let userHistory = await UserHistory.findOne({userId:loggedInUsername});
+        const blogData = await Blogs.findById(postId,{Heading:1,Category:1});
+
+        if(!userHistory){
+          userHistory = await UserHistory.create({
+            userId: loggedInUsername,
         viewedBlogs: [{ blogId:postId,heading:blogData.Heading,categories:[blogData.Category], viewCount: 1 }] // Initialize views to 1 for the first time
-      });
-    } else {
-      // If username exists, check if postId exists
-      // const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId.toString() === postId);
-      const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId && blog.blogId.toString() === postId);
+          })
+        }
+        else{
+          const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId && blog.blogId.toString() === postId);
 
-      if (blogIndex === -1) {
-        // If postId doesn't exist, add a new post with views initialized to 1
-        userHistory.viewedBlogs.push({
-          blogId: postId,
-          heading:blogData.Heading,
-          categories:[blogData.Category],
-           viewCount: 1 });
-      } else {
-        // If postId exists, increment its views
-        userHistory.viewedBlogs[blogIndex].viewCount += 1;
+          if (blogIndex === -1) {
+            // If postId doesn't exist, add a new post with views initialized to 1
+            userHistory.viewedBlogs.push({
+              blogId: postId,
+              heading: blogData.Heading,
+              categories: [blogData.Category],
+              viewCount: 1
+            });
+        }
+        else {
+          // If postId exists, increment its views
+          userHistory.viewedBlogs[blogIndex].viewCount += 1;
+        }
+        
+          // Update the userhistory collection with the modified document
+          await UserHistory.findByIdAndUpdate(userHistory._id, userHistory);
       }
-
-      // Update the userhistory collection with the modified document
-      await UserHistory.findByIdAndUpdate(userHistory._id, userHistory);
     }
+  } 
     // Save the updated user history document
     // await userHistory.save();
 
@@ -280,9 +268,20 @@ app.put('/editblog/:id', async(req, res) => {
 });
 
 
-app.get('/blogdata',async (req,res) =>{
-  res.json(await Blogs.find());
-})
+// app.get('/blogdata',async (req,res) =>{
+//   res.json(await Blogs.find());
+// })
+
+app.get('/blogdata', async (req, res) => {
+  try {
+    const blogs = await Blogs.find();
+    res.json(blogs);
+  } catch (error) {
+    console.error('Error fetching blog data:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 // Start the server and listen on the specified port
 app.listen(port, () => {

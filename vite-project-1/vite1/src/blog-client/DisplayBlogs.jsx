@@ -32,6 +32,7 @@ const DisplayBlogs = () => {
     }
   };
   useEffect(() => {
+    window.scrollTo(0,0)
     const handleScroll = () => {
       timeSpentScrolling += 1.8;
       updateHaltState();
@@ -76,7 +77,7 @@ const DisplayBlogs = () => {
       updateHaltState();
       const totalTime =
         (end - start) / 1000 - (timeSpentScrolling / 1000) - totalHaltedTime;
-      console.log("Total time ---- ", totalTime);
+      // console.log("Total time ---- ", totalTime);
   
       const response = fetch(`http://localhost:8000/updateElapsedTime/${selectedPost._id}`, {
         method: 'POST',
@@ -85,7 +86,7 @@ const DisplayBlogs = () => {
         },
         body: JSON.stringify({ totalTime }),
       }).then(response => {
-        console.log(response);
+        // console.log(response);
   
         if (!response.ok) {
           console.error('Failed to update elapsed time on the server');

@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "65bb767531675aa06d3e9b71"
+  },
+  "username": "pujan",
+  "email": "200305105155@paruluniversity.ac.in",
+  "password": "$2a$10$4vgekx8vtgcVEeA49/tuuuT9O1jTgrDdxUId0ZvdjiRIwgQiiT6ru",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb77a831675aa06d3e9b77"
+  },
+  "username": "raj",
+  "email": "raj@gmail.com",
+  "password": "$2a$10$jfVxUA8947OMGJ819nvY0.pNTOTpoKxrqzt./LTg7DM/Brp89ubbu",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb77cd31675aa06d3e9b7c"
+  },
+  "username": "jap",
+  "email": "200305105146@paruluniversity.ac.in",
+  "password": "$2a$10$3fIBcpM4kzqQhzoxzVgple7NQtPfhh8ujHWxeqcTD7Ch5JmBMFf9S",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb77eb31675aa06d3e9b81"
+  },
+  "username": "Dev",
+  "email": "200305105148@paruluniversity.ac.in",
+  "password": "$2a$10$4vgB.HynqZ.C9jNe6yROTe72vYibuZ.N9V0JXMDOip9fRUrOFPp4e",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65bb781e31675aa06d3e9b86"
+  },
+  "username": "Hit",
+  "email": "200305105145@paruluniversity.ac.in",
+  "password": "$2a$10$vPx6oZdShdUn/8joV.m1sO6m61S28pvWQT2zD/1sbKw5tbu0HzKcO",
+  "__v": 0
+}]

@@ -22,9 +22,11 @@ const BlogPage = () => {
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
+        // console.log(response.data)
         setBlogPosts((prevPosts) => [...prevPosts, ...response.data]); // Append new posts to existing ones
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -52,18 +54,24 @@ const BlogPage = () => {
     const imgUrl = Content.match(/<img src="(.*?)"/);
     return imgUrl ? imgUrl[1] : null; // Return the URL or null if not found
   };
+ 
 
+  const requestBody = {};
+  
+  const loggedInUsername = Cookies.get('loggedInUsername');
+  // Check if loggedInUsername exists in cookies
+  if (loggedInUsername) {
+    // If loggedInUsername exists, add it to the request body
+    requestBody.loggedInUsername = loggedInUsername;
+  }
   const handleDivClick = async (selectedPost) => {
+    
     try {
-      const loggedInUsername = Cookies.get('loggedInUsername');
+      
       console.log(selectedPost._id);
-      const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, {
-        loggedInUsername: loggedInUsername,
-        method: 'PUT', // Use PUT method for updating
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, requestBody
+      );
+      console.log("request body",requestBody)
       if (response.status === 204) {
         navigate(`/displayblogs/${selectedPost._id}`, { state: { selectedPost } });
       } else {
@@ -123,8 +131,8 @@ const BlogPage = () => {
         </nav>
       </header>
       {/* Display the blog posts */}
-      {filteredBlogPosts.map((item) => (
-        <div className="post space-x-4" key={item._id} onClick={() => handleDivClick(item)}>
+      {filteredBlogPosts.map((item,index) => (
+        <div className="post space-x-4" key={`${item._id}-${index}`} onClick={() => handleDivClick(item)}>
           {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
             <div className="w-auto h-48 overflow-hidden" key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
           ))}
