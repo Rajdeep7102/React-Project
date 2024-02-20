@@ -20,6 +20,7 @@ import Cookies from 'js-cookie'
 let loggedInUser = Cookies.get('loggedInUsername')
 // import summar from '/AImodel/FirstModel'
 import Summarizetest from './blog-client/Summarizetest'
+import YourReactComponent from './blog-client/YourReactComponent'
 function App() {
   // const [count, setCount] = useState(0)
 
@@ -33,7 +34,8 @@ function App() {
   <Route path="/blog" element={<Blog />} />
   <Route path="/" element={<BlogPage />} />
   <Route path="*" element={<BlogPage />} />
-
+  <Route path="/yourreactcomponent" element={<YourReactComponent />} />
+  
 
   <Route path="/login" element={<UserLogin />} />
   <Route path="/register" element={<Register />} />

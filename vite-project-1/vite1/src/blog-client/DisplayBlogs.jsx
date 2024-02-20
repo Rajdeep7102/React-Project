@@ -126,7 +126,7 @@ const DisplayBlogs = () => {
               to={{ pathname: `/editblog/${selectedPost._id}`, 
                   state: { postId : selectedPost._id } }}>Link</Link>
             ):null} 
-            <Link className=""to="/summarize">MyProfile</Link>
+            <Link className=""to="/yourreactcomponent">MyProfile</Link>
           </div>
         </div>
         <div className=''>
