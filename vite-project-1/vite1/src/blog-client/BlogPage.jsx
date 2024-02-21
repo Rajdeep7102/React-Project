@@ -3,7 +3,7 @@ import React from 'react'
 import './BlogPage.css'
 import Cookies from 'js-cookie';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState,useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -21,58 +21,61 @@ const BlogPage = () => {
   const [searchInput, setSearchInput] = useState('');
   const [page, setPage] = useState(1);
   const [filteredBlogPosts, setFilteredBlogPosts] = useState([]);
+  const [filteredRecommends, setFilteredRecommends] = useState([]);
   const [hasMorePosts, setHasMorePosts] = useState(true);
-  const [data, setData] = useState(null);
-  
-  const fetchDataFromFlask = async () => {
-    try {
-      const response = await axios.get(`http://localhost:5000/get_data_for_python`);
-      const jsonData = response.data;
-      setData(jsonData.data);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchDataFromFlask();
-  }, []);
-
+  const [data, setData] = useState([]);
+ 
   useEffect(() => {
     
     const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
-        // console.log(response.data)
-        const filteredPosts = response.data.filter((post) =>
-        post.Content.toLowerCase().includes(searchInput.toLowerCase())
-      );
-        setBlogPosts((prevPosts) => [...prevPosts, ...response.data]); // Append new posts to existing ones
-        setFilteredBlogPosts(filteredPosts);
-        setHasMorePosts(response.data.length > 0);
-        if (document.readyState === 'complete') {
-          const clickedPostHeading = Cookies.get('clickedPostHeading');
-          if (clickedPostHeading) {
-            // Send the cookie to the Flask server
-            try {
-              const answer = await axios.post(
-                'http://localhost:5000/send_clicked_heading',
-                { data: clickedPostHeading }
-              );
-              console.log("This is answer : ", answer);
-            } catch (error) {
-              console.error('Error sending data to the server:', error);
-            }
-          }
+      const clickedPostHeading = Cookies.get('clickedPostHeading');
+      if (clickedPostHeading) {
+        try {
+          const answer = await axios.post(
+            'http://localhost:5000/send_clicked_heading',
+            { data: clickedPostHeading }
+          );
+          // console.log("This is answer : ", answer);
+        } catch (error) {
+          console.error('Error sending data to the server:', error);
         }
+      }
+    
+      try {
+        const response = await axios.get(`http://localhost:5000/get_data_for_python`);
+        const jsonData = response.data;
+        console.log("this is the answer: ", jsonData.data);
+        setData(jsonData.data);
+        console.log("this is data  after setData",data)
+        // Create headingset after the data is set
+        const headingSet = new Set(jsonData.data);
+        console.log('this is heading set', headingSet);
+  
+        const responseBlogData = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
+        const filteredPosts = responseBlogData.data.filter((post) =>
+          post.Content.toLowerCase().includes(searchInput.toLowerCase())
+        );
+  
+        // const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
+        // console.log("these are filtered recommended heading data", filteredRecommendedData);
+        // setFilteredRecommends(filteredRecommendedData);
+        const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
+        setFilteredRecommends(filteredRecommendedData.reverse());
+  
+        setBlogPosts((prevPosts) => [...prevPosts, ...responseBlogData.data]);
+        setFilteredBlogPosts(filteredPosts);
+        setHasMorePosts(responseBlogData.data.length > 0);
+  
+       
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
-  }, [page,searchInput]); // Trigger fetching when the page changes
-
+  }, [page, searchInput]);
+  
   const handleSearch = () => {
     setPage(1);
   }
@@ -101,7 +104,6 @@ const BlogPage = () => {
     const clickedPostHeading = Cookies.get('clickedPostHeading');
     console.log("This is print to check cookies:",clickedPostHeading)
     try {
-      
       console.log(selectedPost._id);
       const response = await axios.put(`http://localhost:8000/api/increment-views/${selectedPost._id}`, requestBody
       );
@@ -126,61 +128,48 @@ const BlogPage = () => {
     // navigate(`/displayblogs/${selectedPost._id}`);
   };
 
-  // const sendClickedPostHeadingToServer = async () => {
-  //   try {
-  //     const clickedPostHeading = Cookies.get('clickedPostHeading');
+  useLayoutEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
+        hasMorePosts
+      ) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    };
   
-  //     // Check if the cookie exists before making the request
-  //     if (clickedPostHeading) {
-  //       const response = await axios.post(
-  //         'http://localhost:5000/send_clicked_heading',
-  //         { heading: clickedPostHeading }
-  //       );
-  
-  //       // Handle the response as needed
-  //       console.log('Server response:', response.data);
-  //     } else {
-  //       console.error('Cookie "clickedPostHeading" not found.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error sending data to the server:', error);
-  //   }
-  // };
- 
- 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
-      hasMorePosts
-    ) {
-      setPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-
+  
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); 
+  }, [hasMorePosts]);
+  // console.error('Error sending data to the server:', error);
+
 
   return (
-    <main id="blogpage">
-      <div className='flex'>
-      <div>
-      {data && (
-        <div>
-          <h2>Fetched Data:</h2>
-          <ul>
-            {data.map((item, index) => (
-              <li key={index}>{JSON.stringify(item)}</li>
-            ))}
-          </ul>
+    <main id="blogpage" className='w-full mt-5'>
+      <div className='flex '>
+      <div className='w-1/4 mt-48 '>
+
+      {filteredRecommends.reverse().map((item, index) => (
+        <div key={index} className="recommended-item">
+          {/* ... your existing code for displaying images */}
+          <div className="texts flex gap-1 py-4">
+          {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
+            <div className="w-36 overflow-hidden" key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
+          ))}
+           <div className='flex flex-col'>  <h1 className='text-sm font-bold'>{item.Heading.slice(0, 36)}...</h1>
+            <p className="info">
+              <span className="author text-xs">{item.Author}</span>
+            </p>
+            </div>
+          </div>
         </div>
-      )}
+      ))}
+
       </div>
-      <div> 
+      <div className='w-1/2 '> 
       <header>
         <Link className="logo" to="/userprofile">
           MyBlog
@@ -226,7 +215,7 @@ const BlogPage = () => {
         </div>
       ))}
       </div>
-      <div> Advertisment</div>
+      <div className="w-1/4 "> Advertisment</div>
 
       </div>
 
