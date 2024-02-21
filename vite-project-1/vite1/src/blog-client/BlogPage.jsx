@@ -22,7 +22,21 @@ const BlogPage = () => {
   const [page, setPage] = useState(1);
   const [filteredBlogPosts, setFilteredBlogPosts] = useState([]);
   const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [data, setData] = useState(null);
   
+  const fetchDataFromFlask = async () => {
+    try {
+      const response = await axios.get(`http://localhost:5000/get_data_for_python`);
+      const jsonData = response.data;
+      setData(jsonData.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataFromFlask();
+  }, []);
 
   useEffect(() => {
     
@@ -36,13 +50,24 @@ const BlogPage = () => {
         setBlogPosts((prevPosts) => [...prevPosts, ...response.data]); // Append new posts to existing ones
         setFilteredBlogPosts(filteredPosts);
         setHasMorePosts(response.data.length > 0);
+        if (document.readyState === 'complete') {
+          const clickedPostHeading = Cookies.get('clickedPostHeading');
+          if (clickedPostHeading) {
+            // Send the cookie to the Flask server
+            try {
+              const answer = await axios.post(
+                'http://localhost:5000/send_clicked_heading',
+                { data: clickedPostHeading }
+              );
+              console.log("This is answer : ", answer);
+            } catch (error) {
+              console.error('Error sending data to the server:', error);
+            }
+          }
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-
-      // Check if the user is already authenticated
-      const loggedInUsername = Cookies.get('loggedInUsername');
-      // console.log(loggedInUsername)
     };
 
     fetchData();
@@ -52,8 +77,6 @@ const BlogPage = () => {
     setPage(1);
   }
 
-
-  
 
   const handleWriteBlog = () => {
     const loggedInUsername = Cookies.get('loggedInUsername');
@@ -65,12 +88,6 @@ const BlogPage = () => {
     }
   };
 
-  const getFirstImageUrl = (Content) => {
-    const imgUrl = Content.match(/<img src="(.*?)"/);
-    return imgUrl ? imgUrl[1] : null; // Return the URL or null if not found
-  };
- 
-
   const requestBody = {};
   
   const loggedInUsername = Cookies.get('loggedInUsername');
@@ -81,6 +98,8 @@ const BlogPage = () => {
   }
   const handleDivClick = async (selectedPost) => {
     
+    const clickedPostHeading = Cookies.get('clickedPostHeading');
+    console.log("This is print to check cookies:",clickedPostHeading)
     try {
       
       console.log(selectedPost._id);
@@ -88,7 +107,16 @@ const BlogPage = () => {
       );
       console.log("request body",requestBody)
       if (response.status === 204) {
+        Cookies.set('clickedPostHeading', selectedPost.Heading, { expires: 365 });
+        console.log(Cookies.get('clickedPostHeading'))
         navigate(`/displayblogs/${selectedPost._id}`, { state: { selectedPost } });
+        
+      const answer = await axios.post(
+        'http://localhost:5000/send_clicked_heading',
+        { data: clickedPostHeading }
+        
+      );
+      console.log("This is answer : ",answer)
       } else {
         console.error('Failed to update views:', response.status, response.statusText);
       }
@@ -98,6 +126,28 @@ const BlogPage = () => {
     // navigate(`/displayblogs/${selectedPost._id}`);
   };
 
+  // const sendClickedPostHeadingToServer = async () => {
+  //   try {
+  //     const clickedPostHeading = Cookies.get('clickedPostHeading');
+  
+  //     // Check if the cookie exists before making the request
+  //     if (clickedPostHeading) {
+  //       const response = await axios.post(
+  //         'http://localhost:5000/send_clicked_heading',
+  //         { heading: clickedPostHeading }
+  //       );
+  
+  //       // Handle the response as needed
+  //       console.log('Server response:', response.data);
+  //     } else {
+  //       console.error('Cookie "clickedPostHeading" not found.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error sending data to the server:', error);
+  //   }
+  // };
+ 
+ 
   const handleScroll = () => {
     if (
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 &&
@@ -113,15 +163,24 @@ const BlogPage = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []); // Add and remove the scroll event listener
-
-  // const filteredBlogPosts =
-  //   searchInput === ''
-  //     ? blogPosts // Show all blogs if search input is empty
-  //     : blogPosts.filter((post) => post.Content.toLowerCase().includes(searchInput.toLowerCase()));
+  }, []); 
 
   return (
     <main id="blogpage">
+      <div className='flex'>
+      <div>
+      {data && (
+        <div>
+          <h2>Fetched Data:</h2>
+          <ul>
+            {data.map((item, index) => (
+              <li key={index}>{JSON.stringify(item)}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+      </div>
+      <div> 
       <header>
         <Link className="logo" to="/userprofile">
           MyBlog
@@ -166,6 +225,11 @@ const BlogPage = () => {
           </div>
         </div>
       ))}
+      </div>
+      <div> Advertisment</div>
+
+      </div>
+
     </main>
   );
 };

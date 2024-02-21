@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import React, { useState, useEffect  } from 'react';
 import {pipeline} from '@xenova/transformers';
 
