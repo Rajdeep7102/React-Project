@@ -15,6 +15,7 @@ const JWT_SECRET = "Interstellar"
 const app = express();
 const port = 8000;
 const cors = require('cors');
+const { AsyncLocalStorage } = require('async_hooks');
 
 app.use(bodyParser.json({limit:'10mb'}))
 app.use(bodyParser.urlencoded({extended:true,limit:'10mb'}))
@@ -146,61 +147,6 @@ app.delete('/blogdata/:postId', async (req, res) => {
 
 
 
-// Modify your server.js or backend file
-// app.put('/api/increment-views/:postId', async (req, res) => {
-//   const postId = req.params.postId;
-//   const  loggedInUsername  = req.body.loggedInUsername;
-//   // console.log(loggedInUsername)
-//   try {
-
-//     if(loggedInUsername){
-//       const result = await Blogs.findByIdAndUpdate(postId,{$inc:{Views:1}});
-//       // console.log('Theis is result inside increement server-side',result) running correctly
-//       if(result){
-//         let userHistory = await UserHistory.findOne({userId:loggedInUsername});
-//         // console.log('user hostriy',userHistory)running correctly
-//         const blogData = await Blogs.findById(postId,{Heading:1,Category:1});
-//         // console.log("This is blogData", blogData) running correctly
-//         if(!userHistory){
-//           userHistory = await UserHistory.create({
-//             userId: loggedInUsername,
-//         viewedBlogs: [{ blogId:postId,heading:blogData.Heading,categories:[blogData.Category], viewCount: 1 }] // Initialize views to 1 for the first time
-//           })
-//         }
-//         else{
-//           const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId && blog.blogId.toString() === postId);
-//           console.log("this is blogIndex",blogIndex)
-//           if (blogIndex === -1) {
-//             // If postId doesn't exist, add a new post with views initialized to 1
-//             userHistory.viewedBlogs.push({
-//               blogId: postId,
-//               heading: blogData.Heading,
-//               categories: [blogData.Category],
-//               viewCount: 1
-//             });
-//         }
-//         else {
-//           // If postId exists, increment its views
-//           console.log("This is views before update :",userHistory.viewedBlogs[blogIndex].viewCount)
-//           userHistory.viewedBlogs[blogIndex].viewCount += 1;
-//         }
-        
-//           // Update the userhistory collection with the modified document
-//           await UserHistory.findByIdAndUpdate(userHistory._id, userHistory);
-//           console.log("this is views after update : ",userHistory.viewedBlogs[blogIndex].viewCount)
-//       }
-//     }
-//   } 
-//     // Save the updated user history document
-//     // await userHistory.save();
-
-//     res.status(204).end(); // Success, no content to send
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
 app.put('/api/increment-views/:postId', async (req, res) => {
   const postId = req.params.postId;
   const loggedInUsername = req.body.loggedInUsername;
@@ -208,10 +154,10 @@ app.put('/api/increment-views/:postId', async (req, res) => {
   try {
     if (loggedInUsername) {
       const result = await Blogs.findByIdAndUpdate(postId, { $inc: { Views: 1 } });
-
+      // console.log("This is the result",result)
       if (result) {
         let userHistory = await UserHistory.findOne({ userId: loggedInUsername });
-
+        // console.log("This is userHistory:",userHistory)
         const blogData = await Blogs.findById(postId, { Heading: 1, Category: 1 });
 
         if (!userHistory) {
@@ -224,34 +170,39 @@ app.put('/api/increment-views/:postId', async (req, res) => {
               viewCount: 1
             }]
           });
-        } else {
+          return res.status(204).end();
+        } 
+          console.log("this is post Id",postId)
           const blogIndex = userHistory.viewedBlogs.findIndex(blog => blog.blogId && blog.blogId.toString() === postId);
-
+          // console.log("raw blogIndex",blogIndex)
           if (blogIndex === -1) {
-            // If postId doesn't exist, add a new post with views initialized to 1
+            // If postId doesn't exist in viewedBlogs, add a new post with views initialized to 1
             userHistory.viewedBlogs.push({
               blogId: postId,
               heading: blogData.Heading,
               categories: [blogData.Category],
               viewCount: 1
             });
+
+            // Update the user history collection with the modified document
+            await UserHistory.updateOne(
+              { userId: loggedInUsername },
+              { $push: { viewedBlogs: userHistory.viewedBlogs[userHistory.viewedBlogs.length - 1] } }
+            );
           } else {
             // If postId exists, increment its views
             userHistory.viewedBlogs[blogIndex].viewCount += 1;
-          }
-          console.log(blogIndex) // the error is updating for new/ unopened blog
-          // Update the userhistory collection with the modified document
-          await UserHistory.updateOne(
-            { userId: loggedInUsername, 'viewedBlogs.blogId': postId },
-            {
-              $set: {
-                'viewedBlogs.$.heading': blogData.Heading,
-                'viewedBlogs.$.categories': [blogData.Category],
-                'viewedBlogs.$.viewCount': userHistory.viewedBlogs[blogIndex].viewCount
+            await UserHistory.updateOne(
+              { userId: loggedInUsername, 'viewedBlogs.blogId': postId },
+              {
+                $set: {
+                  'viewedBlogs.$.heading': blogData.Heading,
+                  'viewedBlogs.$.categories': [blogData.Category],
+                  'viewedBlogs.$.viewCount': userHistory.viewedBlogs[blogIndex].viewCount
+                }
               }
-            }
-          );
-        }
+            );
+          }
       }
     }
 

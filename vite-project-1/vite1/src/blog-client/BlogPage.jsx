@@ -23,7 +23,7 @@ const BlogPage = () => {
   const [filteredBlogPosts, setFilteredBlogPosts] = useState([]);
   const [filteredRecommends, setFilteredRecommends] = useState([]);
   const [hasMorePosts, setHasMorePosts] = useState(true);
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
  
   useEffect(() => {
     
@@ -45,13 +45,14 @@ const BlogPage = () => {
         const response = await axios.get(`http://localhost:5000/get_data_for_python`);
         const jsonData = response.data;
         console.log("this is the answer: ", jsonData.data);
-        setData(jsonData.data);
-        console.log("this is data  after setData",data)
+        // setData(jsonData.data);
+        // console.log("this is data  after setData",jsonData.data.Heading)
         // Create headingset after the data is set
         const headingSet = new Set(jsonData.data);
         console.log('this is heading set', headingSet);
   
         const responseBlogData = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
+        console.log("This is length of response :",responseBlogData.data.length)
         const filteredPosts = responseBlogData.data.filter((post) =>
           post.Content.toLowerCase().includes(searchInput.toLowerCase())
         );
@@ -60,8 +61,8 @@ const BlogPage = () => {
         // console.log("these are filtered recommended heading data", filteredRecommendedData);
         // setFilteredRecommends(filteredRecommendedData);
         const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
-        setFilteredRecommends(filteredRecommendedData.reverse());
-  
+        setFilteredRecommends(filteredRecommendedData);
+        console.log("These is recommended headings",filteredRecommendedData)
         setBlogPosts((prevPosts) => [...prevPosts, ...responseBlogData.data]);
         setFilteredBlogPosts(filteredPosts);
         setHasMorePosts(responseBlogData.data.length > 0);
@@ -152,7 +153,7 @@ const BlogPage = () => {
       <div className='flex '>
       <div className='w-1/4 mt-48 '>
 
-      {filteredRecommends.reverse().map((item, index) => (
+      {filteredRecommends.map((item, index) => (
         <div key={index} className="recommended-item">
           {/* ... your existing code for displaying images */}
           <div className="texts flex gap-1 py-4">
