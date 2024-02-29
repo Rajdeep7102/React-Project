@@ -23,7 +23,30 @@ const BlogPage = () => {
   const [filteredBlogPosts, setFilteredBlogPosts] = useState([]);
   const [filteredRecommends, setFilteredRecommends] = useState([]);
   const [hasMorePosts, setHasMorePosts] = useState(true);
+  const [askAnythingInput, setAskAnythingInput] = useState('');
   // const [data, setData] = useState([]);
+
+  const fetchRecommendationsFromFlask = async () => {
+    try {
+      // Replace with your Flask API URL
+      const apiUrl = 'http://localhost:5000/recommend';
+
+      // Replace with the user_to_recommend value
+      const userToRecommend = 'jap';
+
+      // Send a POST request to Flask API
+      const response = await axios.post(apiUrl, { user_to_recommend: userToRecommend });
+
+      // Log recommendations to the console
+      console.log(response)
+      console.log('Recommendations from Flask:', response.data.recommendations);
+
+      // Set recommendations in state if needed
+      // setFilteredRecommends(response.data.recommendations);
+    } catch (error) {
+      console.error('Error fetching recommendations from Flask:', error.message);
+    }
+  };
  
   useEffect(() => {
     
@@ -44,25 +67,28 @@ const BlogPage = () => {
       try {
         const response = await axios.get(`http://localhost:5000/get_data_for_python`);
         const jsonData = response.data;
-        console.log("this is the answer: ", jsonData.data);
+        const userrecommend = response.data.colaborative_recommendations;
         // setData(jsonData.data);
         // console.log("this is data  after setData",jsonData.data.Heading)
         // Create headingset after the data is set
         const headingSet = new Set(jsonData.data);
-        console.log('this is heading set', headingSet);
   
         const responseBlogData = await axios.get(`http://localhost:8000/blogdata?page=${page}`);
-        console.log("This is length of response :",responseBlogData.data.length)
+        // console.log("This is length of response :",responseBlogData.data)
+        const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
+        const arrangedFilteredRecommendedData = Array.from(headingSet).map(heading => 
+          filteredRecommendedData.find(item => item.Heading === heading)
+          ).filter(Boolean);
+
+        setFilteredRecommends(arrangedFilteredRecommendedData);
+        // console.log("These are recommended headings", arrangedFilteredRecommendedData);
         const filteredPosts = responseBlogData.data.filter((post) =>
           post.Content.toLowerCase().includes(searchInput.toLowerCase())
-        );
+        ).reverse();
   
         // const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
-        // console.log("these are filtered recommended heading data", filteredRecommendedData);
         // setFilteredRecommends(filteredRecommendedData);
-        const filteredRecommendedData = responseBlogData.data.filter(item => headingSet.has(item.Heading));
-        setFilteredRecommends(filteredRecommendedData);
-        console.log("These is recommended headings",filteredRecommendedData)
+        // console.log("These is recommended headings",filteredRecommendedData)
         setBlogPosts((prevPosts) => [...prevPosts, ...responseBlogData.data]);
         setFilteredBlogPosts(filteredPosts);
         setHasMorePosts(responseBlogData.data.length > 0);
@@ -75,6 +101,7 @@ const BlogPage = () => {
     };
   
     fetchData();
+    // fetchRecommendationsFromFlask();
   }, [page, searchInput]);
   
   const handleSearch = () => {
@@ -111,14 +138,14 @@ const BlogPage = () => {
       console.log("request body",requestBody)
       if (response.status === 204) {
         Cookies.set('clickedPostHeading', selectedPost.Heading, { expires: 365 });
-        console.log(Cookies.get('clickedPostHeading'))
+        console.log('this is before navigate to displayblogs ',Cookies.get('clickedPostHeading'))
         navigate(`/displayblogs/${selectedPost._id}`, { state: { selectedPost } });
-        
       const answer = await axios.post(
         'http://localhost:5000/send_clicked_heading',
         { data: clickedPostHeading }
         
       );
+      
       console.log("This is answer : ",answer)
       } else {
         console.error('Failed to update views:', response.status, response.statusText);
@@ -129,6 +156,12 @@ const BlogPage = () => {
     // navigate(`/displayblogs/${selectedPost._id}`);
   };
 
+  const handleAskAnything = (event) =>{
+    event.preventDefault();
+    console.log("Ask anything input",askAnythingInput)
+    setAskAnythingInput('');
+
+  }
   useLayoutEffect(() => {
     const handleScroll = () => {
       if (
@@ -155,7 +188,6 @@ const BlogPage = () => {
 
       {filteredRecommends.map((item, index) => (
         <div key={index} className="recommended-item">
-          {/* ... your existing code for displaying images */}
           <div className="texts flex gap-1 py-4">
           {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
             <div className="w-36 overflow-hidden" key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
@@ -198,7 +230,7 @@ const BlogPage = () => {
         </nav>
       </header>
       {/* Display the blog posts */}
-      {filteredBlogPosts.map((item,index) => (
+      {filteredBlogPosts.reverse().map((item,index) => (
         <div className="post space-x-4" key={`${item._id}-${index}`} onClick={() => handleDivClick(item)}>
           {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
             <div className="w-auto h-48 overflow-hidden" key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />
@@ -216,8 +248,20 @@ const BlogPage = () => {
         </div>
       ))}
       </div>
-      <div className="w-1/4 "> Advertisment</div>
-
+      {/* <div className="w-1/4 ">
+        <div className='pt-40'>
+        <h1>Ask Anything</h1>
+        <div><form action="" onSubmit={handleAskAnything} className='flex'>
+          <input type="text" 
+          className="AskAnything w-5/6 h-10 bg-transparent "
+        placeholder='Ask Anything'
+        value={askAnythingInput}
+        
+        onChange={(e) => setAskAnythingInput(e.target.value)} />
+        <button type='submit' className='w-1/6 h-10 border-x border-y  '>Ask</button></form>
+        </div> 
+        </div>
+        </div> */}
       </div>
 
     </main>

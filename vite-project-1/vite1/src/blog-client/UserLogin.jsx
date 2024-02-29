@@ -25,6 +25,7 @@ const UserLogin = () => {
     if (response.ok) {
       const data = await response.json();
       Cookies.set('loggedInUsername', username,{expires:1});  
+      console.log('Logged in successfully by ',username)
       setRedirect(true);
     }
     else{

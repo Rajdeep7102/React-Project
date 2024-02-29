@@ -1,0 +1,614 @@
+[{
+  "_id": {
+    "$oid": "65c5c239b79591ef8ed79a1d"
+  },
+  "userId": "raj",
+  "viewedBlogs": [
+    {
+      "blogId": {
+        "$oid": "65bcc57bb290619a1ce5f473"
+      },
+      "heading": "Ultra-efficient USB-C power for your Amiga 500, 600 and 1200.",
+      "categories": [
+        "Hardware, Electronics"
+      ],
+      "viewCount": 8,
+      "_id": {
+        "$oid": "65c5ca1a689590bb437d93f3"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcbd52b290619a1ce5f413"
+      },
+      "heading": "Apple Vision Pro review: magic, until it’s not",
+      "categories": [
+        "Technology, Hardware, VR, AR"
+      ],
+      "viewCount": 11,
+      "_id": {
+        "$oid": "65c5ca23689590bb437d9417"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bc899159d6285aec0c84f9"
+      },
+      "heading": "Car-tech breakup fever is heating up",
+      "categories": [
+        "Automobile"
+      ],
+      "viewCount": 11,
+      "_id": {
+        "$oid": "65c5cad1689590bb437d943e"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc01db290619a1ce5f430"
+      },
+      "heading": "Google Maps is getting ‘supercharged’ with generative AI",
+      "categories": [
+        "Technology, AI"
+      ],
+      "viewCount": 5,
+      "_id": {
+        "$oid": "65c5ccfa689590bb437d946e"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5d4b2689590bb437d954c"
+      },
+      "heading": "Our Northern Lights Blog",
+      "categories": [
+        "Travel, adventure, Europe, Northern Lights"
+      ],
+      "viewCount": 7,
+      "_id": {
+        "$oid": "65c6199aefc05d4f49075b6f"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5cf1f689590bb437d94e1"
+      },
+      "heading": "Exploring Como And Bellagio On Lake Como, Italy",
+      "categories": [
+        "Travel , Vacation, Europe, Italy"
+      ],
+      "viewCount": 11,
+      "_id": {
+        "$oid": "65c61a4eefc05d4f49075b84"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccaccd3d82c48ba83286a"
+      },
+      "heading": "THE PAST, PRESENT, AND FUTURE OF INFLATABLE SPACE HABITATS",
+      "categories": [
+        "Space, Engineering, Technology"
+      ],
+      "viewCount": 8,
+      "_id": {
+        "$oid": "65c62137b3dcb2c66f615b03"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc4f4b290619a1ce5f46f"
+      },
+      "heading": "What Is an AI Black Box? A Computer Scientist Explains",
+      "categories": [
+        "AI"
+      ],
+      "viewCount": 12,
+      "_id": {
+        "$oid": "65c621b3b3dcb2c66f615b39"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc7d5d3d82c48ba832866"
+      },
+      "heading": "SELF-SOLDERING SLEEVES FROM WORLD WAR II",
+      "categories": [
+        "Engineering, War"
+      ],
+      "viewCount": 4,
+      "_id": {
+        "$oid": "65c626760ace002dd07ad392"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccd30d3d82c48ba83287a"
+      },
+      "heading": "What to Do in Athens, Greece in Three Days",
+      "categories": [
+        "Travel, Tourism, Lifestyle"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65cc8a57700d292d77c1c36d"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9ab371566ea399e3f5653"
+      },
+      "heading": "WEBB TELESCOPE UNVEILS 19 GALAXIES IN A NEW LIGHT",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy, Telescope"
+      ],
+      "viewCount": 3,
+      "_id": {
+        "$oid": "65cc9839700d292d77c1c41a"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9a9991566ea399e3f5637"
+      },
+      "heading": "HOW VENUS ENDED UP WITH A MINI-MOON NAMED ZOOZVE",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d4a331852b1e3c78b6d02c"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c5cd18689590bb437d9481"
+  },
+  "userId": "jap",
+  "viewedBlogs": [
+    {
+      "blogId": {
+        "$oid": "65bc899159d6285aec0c84f9"
+      },
+      "heading": "Car-tech breakup fever is heating up",
+      "categories": [
+        "Automobile"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c5cd18689590bb437d9482"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc01db290619a1ce5f430"
+      },
+      "heading": "Google Maps is getting ‘supercharged’ with generative AI",
+      "categories": [
+        "Technology, AI"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c5cd1b689590bb437d948a"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccd30d3d82c48ba83287a"
+      },
+      "heading": "What to Do in Athens, Greece in Three Days",
+      "categories": [
+        "Travel, Tourism, Lifestyle"
+      ],
+      "viewCount": 3,
+      "_id": {
+        "$oid": "65c5cd1f689590bb437d9496"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c5ce17689590bb437d94c5"
+  },
+  "userId": "Dev",
+  "viewedBlogs": [
+    {
+      "blogId": {
+        "$oid": "65bc899159d6285aec0c84f9"
+      },
+      "heading": "Car-tech breakup fever is heating up",
+      "categories": [
+        "Automobile"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c5ce17689590bb437d94c6"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccd30d3d82c48ba83287a"
+      },
+      "heading": "What to Do in Athens, Greece in Three Days",
+      "categories": [
+        "Travel, Tourism, Lifestyle"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65c5ce1a689590bb437d94ce"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc01db290619a1ce5f430"
+      },
+      "heading": "Google Maps is getting ‘supercharged’ with generative AI",
+      "categories": [
+        "Technology, AI"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65c5d00d689590bb437d94f3"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcbd52b290619a1ce5f413"
+      },
+      "heading": "Apple Vision Pro review: magic, until it’s not",
+      "categories": [
+        "Technology, Hardware, VR, AR"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65c5d051689590bb437d9502"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc7d5d3d82c48ba832866"
+      },
+      "heading": "SELF-SOLDERING SLEEVES FROM WORLD WAR II",
+      "categories": [
+        "Engineering, War"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c5d08e689590bb437d9528"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5d4b2689590bb437d954c"
+      },
+      "heading": "Our Northern Lights Blog",
+      "categories": [
+        "Travel, adventure, Europe, Northern Lights"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65c9a9b21566ea399e3f5643"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9ab371566ea399e3f5653"
+      },
+      "heading": "WEBB TELESCOPE UNVEILS 19 GALAXIES IN A NEW LIGHT",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy, Telescope"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c9ac0a1566ea399e3f5661"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc4f4b290619a1ce5f46f"
+      },
+      "heading": "What Is an AI Black Box? A Computer Scientist Explains",
+      "categories": [
+        "AI"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65cf67fcf43c8e84b6b02487"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c5d5059267fb17a0ea3663"
+  },
+  "userId": "pujan",
+  "viewedBlogs": [
+    {
+      "blogId": {
+        "$oid": "65c5cf1f689590bb437d94e1"
+      },
+      "heading": "Exploring Como And Bellagio On Lake Como, Italy",
+      "categories": [
+        "Travel , Vacation, Europe, Italy"
+      ],
+      "viewCount": 5,
+      "_id": {
+        "$oid": "65c5d5099267fb17a0ea366c"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5d4b2689590bb437d954c"
+      },
+      "heading": "Our Northern Lights Blog",
+      "categories": [
+        "Travel, adventure, Europe, Northern Lights"
+      ],
+      "viewCount": 4,
+      "_id": {
+        "$oid": "65c5d5139267fb17a0ea3678"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccd30d3d82c48ba83287a"
+      },
+      "heading": "What to Do in Athens, Greece in Three Days",
+      "categories": [
+        "Travel, Tourism, Lifestyle"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c5d57f9267fb17a0ea36a7"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcbd52b290619a1ce5f413"
+      },
+      "heading": "Apple Vision Pro review: magic, until it’s not",
+      "categories": [
+        "Technology, Hardware, VR, AR"
+      ],
+      "viewCount": 7,
+      "_id": {
+        "$oid": "65c5e0c09267fb17a0ea36dd"
+      }
+    },
+    {
+      "heading": "WEBB TELESCOPE UNVEILS 19 GALAXIES IN A NEW LIGHT",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy, Telescope"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d72fe11400785b39e75c99"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65cf62b047290bfa79a93feb"
+      },
+      "heading": "Ashima’s Jordan Petra Travel Will Grab The Attention Of All The History Buffs",
+      "categories": [
+        "Travel , Ancient, Middle East, Vacation"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65d731a814c3df8949f1f907"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9a9991566ea399e3f5637"
+      },
+      "heading": "HOW VENUS ENDED UP WITH A MINI-MOON NAMED ZOOZVE",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d73d2b14c3df8949f1f942"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9ab371566ea399e3f5653"
+      },
+      "heading": "WEBB TELESCOPE UNVEILS 19 GALAXIES IN A NEW LIGHT",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy, Telescope"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d84983d03c085761a64d2b"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65d60627d60c4de8715fabf5"
+      },
+      "heading": " The Chip Race: How Geopolitics is Reshaping the Semiconductor Industry",
+      "categories": [
+        "Geopolitics, War, Technology, Hardware"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65d8568dd03c085761a64db3"
+      }
+    }
+  ],
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "65c9adfd1566ea399e3f5678"
+  },
+  "userId": "Hit",
+  "viewedBlogs": [
+    {
+      "blogId": {
+        "$oid": "65c9a9991566ea399e3f5637"
+      },
+      "heading": "HOW VENUS ENDED UP WITH A MINI-MOON NAMED ZOOZVE",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy"
+      ],
+      "viewCount": 12,
+      "_id": {
+        "$oid": "65c9adfd1566ea399e3f5679"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c9ab371566ea399e3f5653"
+      },
+      "heading": "WEBB TELESCOPE UNVEILS 19 GALAXIES IN A NEW LIGHT",
+      "categories": [
+        "Science, Astronomy, Space, Galaxy, Telescope"
+      ],
+      "viewCount": 3,
+      "_id": {
+        "$oid": "65c9b2c51566ea399e3f56a5"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5cf1f689590bb437d94e1"
+      },
+      "heading": "Exploring Como And Bellagio On Lake Como, Italy",
+      "categories": [
+        "Travel , Vacation, Europe, Italy"
+      ],
+      "viewCount": 3,
+      "_id": {
+        "$oid": "65c9bb151566ea399e3f56bd"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc57bb290619a1ce5f473"
+      },
+      "heading": "Ultra-efficient USB-C power for your Amiga 500, 600 and 1200.",
+      "categories": [
+        "Hardware, Electronics"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65c9bbbe1566ea399e3f56db"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc7d5d3d82c48ba832866"
+      },
+      "heading": "SELF-SOLDERING SLEEVES FROM WORLD WAR II",
+      "categories": [
+        "Engineering, War"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c9bbcc1566ea399e3f56ed"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcbd52b290619a1ce5f413"
+      },
+      "heading": "Apple Vision Pro review: magic, until it’s not",
+      "categories": [
+        "Technology, Hardware, VR, AR"
+      ],
+      "viewCount": 4,
+      "_id": {
+        "$oid": "65c9c311230c02988cc1f195"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc4f4b290619a1ce5f46f"
+      },
+      "heading": "What Is an AI Black Box? A Computer Scientist Explains",
+      "categories": [
+        "AI"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65c9c3df230c02988cc1f1b5"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bc899159d6285aec0c84f9"
+      },
+      "heading": "Car-tech breakup fever is heating up",
+      "categories": [
+        "Automobile"
+      ],
+      "viewCount": 3,
+      "_id": {
+        "$oid": "65c9c8e0280d1eb26bf8b9c8"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bcc01db290619a1ce5f430"
+      },
+      "heading": "Google Maps is getting ‘supercharged’ with generative AI",
+      "categories": [
+        "Technology, AI"
+      ],
+      "viewCount": 5,
+      "_id": {
+        "$oid": "65c9cf35d0a24a49c88bb53e"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65cf62b047290bfa79a93feb"
+      },
+      "heading": "Ashima’s Jordan Petra Travel Will Grab The Attention Of All The History Buffs",
+      "categories": [
+        "Travel , Ancient, Middle East, Vacation"
+      ],
+      "viewCount": 2,
+      "_id": {
+        "$oid": "65d5dbea2eae8e165a471d2a"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65bccaccd3d82c48ba83286a"
+      },
+      "heading": "THE PAST, PRESENT, AND FUTURE OF INFLATABLE SPACE HABITATS",
+      "categories": [
+        "Space, Engineering, Technology"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d5e66d2eae8e165a471e14"
+      }
+    },
+    {
+      "blogId": {
+        "$oid": "65c5d4b2689590bb437d954c"
+      },
+      "heading": "Our Northern Lights Blog",
+      "categories": [
+        "Travel, adventure, Europe, Northern Lights"
+      ],
+      "viewCount": 1,
+      "_id": {
+        "$oid": "65d5ed8c2eae8e165a471ec3"
+      }
+    }
+  ],
+  "__v": 0
+}]
