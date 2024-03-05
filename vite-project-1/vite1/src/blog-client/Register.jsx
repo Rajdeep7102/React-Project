@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Navigate } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const [redirect, setRedirect] = useState(false);
 
   async function register(ev) {
     ev.preventDefault();
@@ -19,7 +20,8 @@ const Register = () => {
       
        if (response.ok) {
           console.log('Registration successful');
-          navigate("/");
+          setRedirect(true);
+          
           
           // Optionally, redirect to another page or perform additional actions upon successful registration
        } else {
@@ -30,6 +32,9 @@ const Register = () => {
        console.error('Error during registration:', error);
     }
  }
+   if (redirect) {
+    return <Navigate to={'/BlogPage'} />;
+  }
  
   return (
     <form className='register pb-60 pt-10' onSubmit={register}>

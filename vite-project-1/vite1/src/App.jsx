@@ -35,6 +35,7 @@ function App() {
   <Route path="/" element={<BlogPage />} />
   <Route path="*" element={<BlogPage />} />
   <Route path="/yourreactcomponent" element={<YourReactComponent />} />
+  <Route path="/displayblogs/:id" element={<DisplayBlogs />} />
   
 
   <Route path="/login" element={<UserLogin />} />
@@ -60,14 +61,14 @@ function App() {
     }
   />
   {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
-  <Route
+  {/* <Route
     path="/displayblogs/:id"
     element={
       <ProtectedRoute loggedIn={loggedInUser}>
         <DisplayBlogs />
       </ProtectedRoute>
     }
-  />
+  /> */}
   <Route
     path="/editblog/:id"
     element={

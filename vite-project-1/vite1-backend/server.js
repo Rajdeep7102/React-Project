@@ -39,10 +39,10 @@ app.use(multer().none())
 // Route to handle user registration
 app.post('/register', async (req, res) => {
   const { username, password,email } = req.body;
-  console.log(req.body)
+  // console.log(req.body) 
   // Check if the username already exists
   const existingUser = await Users.findOne({ username });
-
+  // console.log
   if (existingUser) {
     // Username is already taken
     return res.status(400).json({ message: 'Username is already taken' });
@@ -56,12 +56,20 @@ app.post('/register', async (req, res) => {
           id : req.body._id,
       }
   }
-  const authToken =  jwt.sign(data,JWT_SECRET)
-  res.json({authToken})
+  // const authToken =  jwt.sign(data,JWT_SECRET)
+  // res.json({authToken})
   try {
     // Save the new user to the database
     await newUser.save();
-    res.status(201).json({ message: 'Registration successful' });
+    
+    const data = {
+      newUser: {
+        id: req.body._id,
+      }
+    };
+  
+    const authToken = jwt.sign(data, JWT_SECRET);
+    res.status(201).json({ message: 'Registration successful', authToken });
   } catch (error) {
     console.error('Error during registration:', error);
     res.status(500).json({ message: 'Internal Server Error' });

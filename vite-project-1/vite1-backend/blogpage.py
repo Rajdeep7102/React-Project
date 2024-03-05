@@ -17,7 +17,7 @@ app.config["MONGO_URI"] = "mongodb+srv://rajdeep:rajdeep2017@omnispectra.j3xzuo0
 mongo = PyMongo(app)
 
 clickedPostHeading = ""
-
+loggedInUsername = ""
 # Access the specific collection within the database
 collection = mongo.db.blogs
 userhistories_collection_name = mongo.db.userhistories
@@ -32,6 +32,7 @@ def fetch_data_from_mongodb(collection_name):
 @app.route('/get_data_for_python', methods=['GET'])
 def get_data_for_python():
     global clickedPostHeading
+    global loggedInUsername
     # print(f'this is collection: {collection}')
     
     # Fetch data from MongoDB
@@ -44,7 +45,8 @@ def get_data_for_python():
     userhistories_df = fetch_data_from_mongodb(userhistories_collection_name)
     blogs_df = fetch_data_from_mongodb(collection)
 
-    user_to_recommend = 'jap'
+    user_to_recommend = loggedInUsername
+    print(f"this is user to recommend {user_to_recommend}")
 
     colaborative_recommendations = recommend_articles(userhistories_df, blogs_df, user_to_recommend)
     print(f"these are colab reco {colaborative_recommendations}")
@@ -63,6 +65,7 @@ def get_data_for_python():
 @app.route('/send_clicked_heading', methods=['POST'])
 def send_clicked_heading():
     global clickedPostHeading
+    global loggedInUsername
     if request.method == 'OPTIONS':
         # Handle preflight request
         response = jsonify({'message': 'Preflight request handled successfully'})
@@ -70,6 +73,12 @@ def send_clicked_heading():
         # Handle POST request
         data = request.json
         clickedPostHeading = data.get('data', '')
+        loggedInUsername = data.get('loggedInUsername', '')
+        if not loggedInUsername:
+            # Set the username explicitly if it's empty
+            loggedInUsername = "jap"
+
+        print(f"this is the loged in user : {loggedInUsername}")
         print("Clicked post heading received on server ")
         response = jsonify({'message': 'Clicked heading received successfully'})
 
@@ -184,27 +193,27 @@ def recommend_articles(userhistories_df, blogs_df, user_to_recommend, N=2):
     return recommended_articles
     
 
-@app.route('/similar_user_recommend',methods=['GET', 'OPTIONS'])
-@cross_origin()
-def similar_user_recommendations():
-    if request.method == 'OPTIONS':
-        # Handle preflight request
-        response = app.make_default_options_response()
-    else:
-        userhistories_df = fetch_data_from_mongodb(userhistories_collection_name)
-        blogs_df = fetch_data_from_mongodb(collection)
+# @app.route('/similar_user_recommend',methods=['GET', 'OPTIONS'])
+# @cross_origin()
+# def similar_user_recommendations():
+#     if request.method == 'OPTIONS':
+#         # Handle preflight request
+#         response = app.make_default_options_response()
+#     else:
+#         userhistories_df = fetch_data_from_mongodb(userhistories_collection_name)
+#         blogs_df = fetch_data_from_mongodb(collection)
 
-        user_to_recommend = 'jap'
+#         user_to_recommend = 'jap'
 
-        colaborative_recommendations = recommend_articles(userhistories_df, blogs_df, user_to_recommend)
-        print(f"these are colab reco {colaborative_recommendations}")
+#         colaborative_recommendations = recommend_articles(userhistories_df, blogs_df, user_to_recommend)
+#         print(f"these are colab reco {colaborative_recommendations}")
 
-        response = jsonify({'recommendations': colaborative_recommendations})
+#         response = jsonify({'recommendations': colaborative_recommendations})
 
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-    response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-    return response
+#     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
+#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
+#     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+#     return response
 # test_text_for_summary = 'this is textp'
 # summary = summarization_pipeline(test_text_for_summary, max_length=150, min_length=50, length_penalty=2.0, num_beams=4)[0]['summary_text']
 # @app.route('/summarize', methods=['POST'])

@@ -10,10 +10,16 @@ main{
     margin: 0 auto;
 }
 
+.search{
+    margin-left: 100%;
+
+
+}
+
 header{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 50px;
+   
 }
 header a{
     text-decoration: none;
@@ -30,7 +36,7 @@ header form{
 
 }
 header form input{
-    height: 25%;
+    
     background-color: white;
     margin-bottom: 5px;
 }

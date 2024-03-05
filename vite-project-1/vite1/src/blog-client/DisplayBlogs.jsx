@@ -33,6 +33,7 @@ const DisplayBlogs = () => {
   };
   useEffect(() => {
     window.scrollTo(0,0)
+    console.log("this is to print local state on displayblog ",selectedPost)
     const handleScroll = () => {
       timeSpentScrolling += 1.8;
       updateHaltState();

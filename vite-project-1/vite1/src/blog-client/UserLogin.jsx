@@ -45,7 +45,7 @@ const UserLogin = () => {
   }
 
   if (redirect) {
-    return <Navigate to={'/BlogPage'} />;
+    return <Navigate to={'/'} />;
   }
   return (
     <form className='login pb-64 pt-14' onSubmit={login}>
