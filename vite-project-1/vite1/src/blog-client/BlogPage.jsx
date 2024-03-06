@@ -241,7 +241,7 @@ const BlogPage = () => {
          <div className='flex flex-row ml-5  mr-5 gap-5 bg-gray-200 p-8'>
 
       {filteredRecommends.map((item, index) => (
-        <div key={index} className="recommended-item">
+        <div className="post space-x-4" key={`${item._id}-${index}`} onClick={() => handleDivClick(item)}>
           <div className="texts flex flex-col gap-1">
           {extractImgTags(item.Content).slice(0, 1).map((imgTag, index) => (
             <div className="w-52 h-28 overflow-hidden rounded-sm" key={index} dangerouslySetInnerHTML={{ __html: imgTag }} />

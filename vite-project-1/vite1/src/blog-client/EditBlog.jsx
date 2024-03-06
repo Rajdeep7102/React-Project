@@ -14,20 +14,28 @@ import sanitizeHtml from 'sanitize-html';
 
 const modules = {
   toolbar: [
-    [{ 'header': [1, 2, false] }],
-    ['bold', 'italic', 'underline','strike', 'blockquote'],
-    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-    ['link', 'image'],
-    ['clean']
+    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'align': [] }],
+    ['blockquote', 'code-block'],
+    ['link', 'image', 'video'],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    ['clean'],
   ],
+
 };
 
 const formats = [
   'header',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image'
+  'bold', 'italic', 'underline', 'strike',
+  'color', 'background',
+  'align',
+  'blockquote', 'code-block',
+  'link', 'image', 'video',
+  'list', 'bullet',
 ];
+
 const EditBlog = () => {
     // const [heading, setHeading] = useState('');
     // const [text, setText] = useState('');
@@ -126,7 +134,9 @@ const EditBlog = () => {
                     placeholder='Enter Summary of the blog'/>
   
             <ReactQuill value={postInfo.Content} name='text' type="text"
-            onChange={newValue => setPostInfo((prevInfo) => ({ ...prevInfo, Content: newValue }))}/>
+            onChange={newValue => setPostInfo((prevInfo) => ({ ...prevInfo, Content: newValue }))}
+            modules={modules}
+            formats={formats}/>
   
             <label className="Category">Category:</label>
             <input className='Categories' 

@@ -18,7 +18,6 @@ CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"], "methods": ["
 # Set up MongoDB connection
 app.config["MONGO_URI"] = "mongodb+srv://rajdeep:rajdeep2017@omnispectra.j3xzuo0.mongodb.net/OmniSpectra?retryWrites=true&w=majority"
 mongo = PyMongo(app)
-#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
 clickedPostHeading = ""
 loggedInUsername = ""
 # Access the specific collection within the database
