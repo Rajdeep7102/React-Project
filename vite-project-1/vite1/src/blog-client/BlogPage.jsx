@@ -2,7 +2,7 @@
 import React from 'react'
 import './BlogPage.css'
 import Cookies from 'js-cookie';
-
+import Footer from '../components/Footer';
 import { useEffect, useState,useLayoutEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -204,6 +204,7 @@ const BlogPage = () => {
 
 
   return (
+    <> 
     <main id="blogpage" className='flex flex-col justify-between items-center '>
          <header className='w-full '  >
         <Link className="logo" to="/userprofile">
@@ -304,7 +305,7 @@ const BlogPage = () => {
             <p className="summary">{item.Summary.slice(0, 135)}...</p>
           </div>
         </div>
-      ))}
+      )).slice(0,6)}
       </div>
 
       </div>
@@ -335,7 +336,7 @@ const BlogPage = () => {
             <p className="summary">{item.Summary.slice(0, 135)}...</p>
           </div>
         </div>
-      ))}
+      )).slice(0,4)}
       </div>
 
       </div>
@@ -360,7 +361,7 @@ const BlogPage = () => {
             <p className="summary">{item.Summary.slice(0, 135)}...</p>
           </div>
         </div>
-      ))}
+      )).slice(0,3)}
       </div>
 
       </div>  
@@ -417,7 +418,7 @@ const BlogPage = () => {
             <p className="summary">{item.Summary.slice(0, 135)}...</p>
           </div>
         </div>
-      ))}
+      )).slice(0,6)}
       </div>
 
       </div>
@@ -444,13 +445,15 @@ const BlogPage = () => {
             <p className="summary">{item.Summary.slice(0, 135)}...</p>
           </div>
         </div>
-      ))}
+      )).slice(0,6)}
       </div>
 
       </div>
       </div>
 
     </main>
+    <Footer/>
+    </>
   );
 };
 

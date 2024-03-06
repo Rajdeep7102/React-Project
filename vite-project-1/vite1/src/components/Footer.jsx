@@ -3,14 +3,8 @@ import './Footer.css'
 const Footer = () => {
   return (
 <div>
-    <footer className='footer flex justify-center' id="about">
-        <div className='col text-left bottom-10 py-3'>
-
-            <h1 className='about-h1 justify-start font-bold px-24'>About</h1>
-            <p className='w-56 px-8'>This website is a wasted cause , but sometimes can be interesting, however interest is purely a result of perception and taste. The website will cater to minds with objectively superior taste.</p>
-        </div>
-        <div className='col text-left bottom-10 py-3 flex flex-col gap-5' >
-          <h1 className='about-h1 justify-start font-bold px-24'> Contact</h1>
+    <footer className='footer flex justify-center  bottom-0 w-full' id="about">
+        <div className='col text-left bottom-10 py-3 flex gap-3' >
           <button className='contact-link-button'>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-linkedin" viewBox="0 0 16 16">
           <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401m-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4"/>
@@ -32,14 +26,6 @@ const Footer = () => {
             <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/>
           </svg>
           </button>
-        </div>
-        <div className='col text-left bottom-10 py-3 flex flex-col gap-4 '>
-          <h1 className='about-h1 justify-start font-bold px-24 '>Navigate</h1>
-          <a href="#" className='footer-navigate-links'>Home</a>
-          {/* <a href="#" className='footer-navigate-links'>Tools</a> */}
-          <a href="#" className='footer-navigate-links'>Blogs</a>
-          {/* <a href="#" className='footer-navigate-links'>Resume</a> */}
-          <a href="#" className='footer-navigate-links'>Review</a>
         </div>
     </footer>
 </div>

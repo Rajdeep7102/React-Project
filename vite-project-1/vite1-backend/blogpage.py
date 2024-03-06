@@ -7,15 +7,18 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
+# from transformers import pipeline, AutoTokenizer, AutoModelForSeq2SeqLM
+# model_name = "facebook/bart-smart-cnn"
+# tokenizer = AutoTokenizer.from_pretrained(model_name)
+# model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
-# from transformers import pipeline 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": ["http://localhost:5173"], "methods": ["GET", "HEAD", "POST", "OPTIONS", "PUT", "PATCH", "DELETE"]}})
 # summarization_pipeline = pipeline('summarization', model='facebook/bart-large-cnn')
 # Set up MongoDB connection
 app.config["MONGO_URI"] = "mongodb+srv://rajdeep:rajdeep2017@omnispectra.j3xzuo0.mongodb.net/OmniSpectra?retryWrites=true&w=majority"
 mongo = PyMongo(app)
-
+#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
 clickedPostHeading = ""
 loggedInUsername = ""
 # Access the specific collection within the database
@@ -33,15 +36,10 @@ def fetch_data_from_mongodb(collection_name):
 def get_data_for_python():
     global clickedPostHeading
     global loggedInUsername
-    # print(f'this is collection: {collection}')
-    
     # Fetch data from MongoDB
     data = list(collection.find({}, {'_id': 0}))
     # print(f"this is data @ terminal {data}")
     df = pd.DataFrame(data)
-    # print(df.head())
-    # print(f'thsi is df : {df}')
-    # print(f"this is clicked postt : {clickedPostHeading}")
     userhistories_df = fetch_data_from_mongodb(userhistories_collection_name)
     blogs_df = fetch_data_from_mongodb(collection)
 
@@ -192,38 +190,15 @@ def recommend_articles(userhistories_df, blogs_df, user_to_recommend, N=2):
 
     return recommended_articles
     
-
-# @app.route('/similar_user_recommend',methods=['GET', 'OPTIONS'])
-# @cross_origin()
-# def similar_user_recommendations():
-#     if request.method == 'OPTIONS':
-#         # Handle preflight request
-#         response = app.make_default_options_response()
-#     else:
-#         userhistories_df = fetch_data_from_mongodb(userhistories_collection_name)
-#         blogs_df = fetch_data_from_mongodb(collection)
-
-#         user_to_recommend = 'jap'
-
-#         colaborative_recommendations = recommend_articles(userhistories_df, blogs_df, user_to_recommend)
-#         print(f"these are colab reco {colaborative_recommendations}")
-
-#         response = jsonify({'recommendations': colaborative_recommendations})
-
-#     response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')
-#     response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-#     response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
-#     return response
-# test_text_for_summary = 'this is textp'
-# summary = summarization_pipeline(test_text_for_summary, max_length=150, min_length=50, length_penalty=2.0, num_beams=4)[0]['summary_text']
+# summarizer = pipeline("summarization", model=model, tokenizer=tokenizer)
+# summarizer = pipeline("summarization")
 # @app.route('/summarize', methods=['POST'])
 # def summarize_text():
 #     try:
-#         data = request.get_json()
-#         text = data['text']
+#         content  = request.json['content']
 
 #         # Summarize the input text
-#         summary = summarization_pipeline(text, max_length=150, min_length=50, length_penalty=2.0, num_beams=4)[0]['summary_text']
+#         summary = summarizer(content, max_length=150, min_length=50, length_penalty=2.0, num_beams=4, early_stopping=True)
 
 #         return jsonify({'summary': summary})
 

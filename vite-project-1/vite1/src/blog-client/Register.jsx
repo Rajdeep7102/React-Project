@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate,Navigate } from "react-router-dom";
-
+import Footer from '../components/Footer';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -37,6 +37,7 @@ const Register = () => {
   }
  
   return (
+    <> 
     <form className='register pb-60 pt-10' onSubmit={register}>
       <h1>Register</h1>
       <input
@@ -59,39 +60,9 @@ const Register = () => {
       />
       <button className='registerButton'>Register</button>
     </form>
+    <Footer/>
+    </>
   );
 };
 
 export default Register;
-
-
-// import React from 'react'
-// import { useState } from 'react'
-// const Register = () => {
-//   const [username,setUsername] = useState('');
-//   const [password,setPassword] = useState('');
-//   async function register(ev){
-//     ev.preventDefault();
-//     await fetch('http://localhost:5173/register',{
-//       method:'POST',
-//       body: JSON.stringify({username,password}),
-//       headers:{'Content-Type':'application/json'},
-//     })
-//   }
-//   return (
-//     <form className='register' onSubmit={register}>
-//         <h1>Register</h1>
-//       <input type="text" 
-//               placeholder='username'
-//               value={username} 
-//               onChange={ev => setUsername(ev.target.value)}/>
-//       <input type="password" 
-//             placeholder='password'
-//             value={password}
-//             onChange={ev => setPassword(ev.target.value)}/>
-//       <button className='registerButton'>Register</button>
-//     </form>
-//   )
-// }
-
-// export default Register

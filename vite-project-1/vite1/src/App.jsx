@@ -18,8 +18,6 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Cookies from 'js-cookie'
 
 let loggedInUser = Cookies.get('loggedInUsername')
-// import summar from '/AImodel/FirstModel'
-import Summarizetest from './blog-client/Summarizetest'
 import YourReactComponent from './blog-client/YourReactComponent'
 function App() {
   // const [count, setCount] = useState(0)
@@ -41,8 +39,7 @@ function App() {
   <Route path="/login" element={<UserLogin />} />
   <Route path="/register" element={<Register />} />
 
-  // Protected Routes
-  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
+  {/* Protected Routes */}
   <Route
     path="/writeblog"
     element={
@@ -50,8 +47,7 @@ function App() {
         <WriteBlog />
       </ProtectedRoute>
     }
-  />
-  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
+  /> 
   <Route
     path="/userprofile"
     element={
@@ -60,15 +56,7 @@ function App() {
       </ProtectedRoute>
     }
   />
-  {/* <ProtectedRoute loggedIn={loggedInUser} path="/writeblog" element={<WriteBlog />} /> */}
-  {/* <Route
-    path="/displayblogs/:id"
-    element={
-      <ProtectedRoute loggedIn={loggedInUser}>
-        <DisplayBlogs />
-      </ProtectedRoute>
-    }
-  /> */}
+
   <Route
     path="/editblog/:id"
     element={
@@ -77,31 +65,7 @@ function App() {
       </ProtectedRoute>
     }
   />
-  {/* <ProtectedRoute loggedIn={loggedInUser} path="/userprofile" element={<UserProfile />} />
-  <ProtectedRoute loggedIn={loggedInUser} path="/displayblogs/:id" element={<DisplayBlogs />} />
-  <ProtectedRoute loggedIn={loggedInUser} path="/editblog/:id" element={<EditBlog />} /> */}
-
-  <Route path="/summarize" element={<Summarizetest />} />
 </Routes>
-
-      {/* <Routes>
-       <Route path='/' element={<Home/>}></Route>
-       <Route path='/tools' element={<Tools/>}></Route>
-       <Route path='/blog' element={<Blog/>}></Route>
-
-       <Route path='/blogpage' element={<BlogPage/>}></Route>
-       <Route path='/login' element={<UserLogin/>}></Route>
-       <Route path='/register' element={<Register/>}></Route>
-       <Route path='/writeblog' element={<WriteBlog/>}></Route>
-       <Route path='/userprofile' element={<UserProfile/>}></Route>
-       <Route path='/displayblogs/:id' element={<DisplayBlogs/>}></Route>
-       <Route path='/editblog/:id' element={<EditBlog/>}></Route>
-       <Route path='/editblog' element={<EditBlog/>}></Route>
-       <Route path='/summarize' element={<Summarizetest/>}></Route>
-
-      </Routes> */}
-    
-    <Footer/>
     </Router>
       
   

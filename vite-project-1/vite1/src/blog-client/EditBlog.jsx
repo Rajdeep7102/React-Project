@@ -8,7 +8,7 @@ import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css';
 // import 'react-quill/dist/quill.bubble.css';
 import axios from 'axios';
-
+import Footer from '../components/Footer';
 import sanitizeHtml from 'sanitize-html';
 
 
@@ -106,7 +106,7 @@ const EditBlog = () => {
     };
       
     return (
-      <div className="div1">
+      <div >
         <div className='px-32'>
           <h1 className="text-4xl text-bold">Edit Blog</h1>
           <div  className="">
@@ -138,6 +138,7 @@ const EditBlog = () => {
             <button onClick={handleSave}>Save</button>
           </div>
         </div>
+        <Footer/>
       </div>
     );
 }

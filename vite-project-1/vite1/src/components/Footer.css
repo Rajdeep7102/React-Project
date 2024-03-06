@@ -35,3 +35,6 @@
 .contact-link-button,.footer-navigate-links{
     padding-left: 110px;
 }
+.about{
+    position:sticky
+}

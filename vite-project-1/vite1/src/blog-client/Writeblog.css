@@ -39,3 +39,8 @@
 .blog-heading{
     width:100%;
 }
+
+.highlight-empty {
+    border-color: red !important;
+  }
+

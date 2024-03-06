@@ -3,7 +3,7 @@ import {Link,useLocation,useNavigate} from "react-router-dom";
 import Cookies from 'js-cookie';
 import sanitizeHtml from 'sanitize-html';
 import './DisplayBlogs.css'
-
+import Footer from '../components/Footer';
 const DisplayBlogs = () => {
   const location = useLocation();
   const selectedPost = location.state.selectedPost;
@@ -153,7 +153,7 @@ const DisplayBlogs = () => {
           </div>
         </div>
       </div>
-    
+      <Footer/>
     </>
   );    
 }
